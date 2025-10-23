@@ -1,0 +1,24 @@
+@startuml
+'
+left to right direction
+' ---------------------------------------
+
+title Nivel 1: KM_Gestionar Clientes
+
+' Definición del Actor
+actor Propietario
+
+' Definición del subsistema o caja del caso de uso
+rectangle "Gestionar Clientes" {
+    usecase (Registrar\nCliente) as UC1
+    usecase (Actualizar\nCliente) as UC2
+    usecase (Consultar\nCliente) as UC3
+    usecase (Eliminar\nCliente) as UC4
+
+    ' Relaciones entre el Actor y los Casos de Uso
+    Propietario -- UC1
+    Propietario -- UC2
+    Propietario -- UC3
+    Propietario -- UC4
+}
+@enduml
