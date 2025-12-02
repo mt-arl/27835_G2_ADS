@@ -3,188 +3,92 @@ package ec.edu.espe.datos.factory;
 import ec.edu.espe.datos.model.Estudiante;
 
 /**
- * Factory Pattern - Simple Factory
- * Centraliza la creación y validación de objetos Estudiante
- * 
- * IMPORTANTE: Siempre valida cédulas ecuatorianas con el algoritmo oficial del INEC
- * El modo test está disponible SOLO para pruebas unitarias y usa ThreadLocal para aislamiento
+ * Factory Pattern: Centraliza la creación y validación estricta de Estudiantes.
+ * Incluye soporte Thread-Safe para Modo Test.
  */
 public class EstudianteFactory {
-    
-    // Modo test usando ThreadLocal para que solo afecte al thread actual
-    // Esto evita que el modo test afecte otros threads o la aplicación principal
+
+    // ThreadLocal garantiza que activar el modo test en un hilo no afecte a otros.
+    // Vital para las métricas de concurrencia del informe.
     private static final ThreadLocal<Boolean> modoTest = ThreadLocal.withInitial(() -> false);
-    
+
+    // --- MÉTODOS DE CONTROL DE TEST ---
+    public static void activarModoTest() { modoTest.set(true); }
+    public static void desactivarModoTest() { modoTest.set(false); }
+
     /**
-     * Activa modo test SOLO para el thread actual
-     * ⚠️ SOLO USAR EN TESTS UNITARIOS
-     */
-    public static void activarModoTest() {
-        modoTest.set(true);
-    }
-    
-    /**
-     * Desactiva modo test para el thread actual
-     */
-    public static void desactivarModoTest() {
-        modoTest.set(false);
-    }
-    
-    /**
-     * Verifica si el modo test está activo en el thread actual
-     */
-    public static boolean estaModoTestActivo() {
-        return modoTest.get();
-    }
-    
-    /**
-     * Crea un estudiante validando todos los datos de entrada
-     * @param id Cédula del estudiante
-     * @param nombres Nombres completos
-     * @param edadStr Edad en formato String
-     * @return Estudiante validado y creado
-     * @throws Exception Si hay errores de validación
+     * Método principal de fabricación.
+     * @param id Cédula (String)
+     * @param nombres Nombres (String)
+     * @param edadStr Edad (String)
+     * @return Estudiante válido
+     * @throws Exception con mensajes descriptivos para la UI
      */
     public static Estudiante crearEstudiante(String id, String nombres, String edadStr) throws Exception {
-        // 1. Validaciones básicas de nulidad y vacío
-        if (id == null || id.trim().isEmpty()) {
-            throw new Exception("La cédula no puede estar vacía.");
-        }
-        if (nombres == null || nombres.trim().isEmpty()) {
-            throw new Exception("Los nombres no pueden estar vacíos.");
-        }
-        if (edadStr == null || edadStr.trim().isEmpty()) {
-            throw new Exception("La edad no puede estar vacía.");
-        }
+        // 1. Validaciones de Formato Básico (Fail-Fast)
+        System.out.println("🏭 [FACTORY] Iniciando protocolo de creación para ID: " + id);
+        if (id == null || id.trim().isEmpty()) throw new Exception("La cédula es obligatoria.");
+        if (nombres == null || nombres.trim().isEmpty()) throw new Exception("El nombre es obligatorio.");
 
-        // 2. Validar formato de cédula ecuatoriana usando algoritmo oficial INEC
-        // En modo test, se omite la validación SOLO para el thread actual
+        // 2. Validación de Cédula Ecuatoriana (Algoritmo Módulo 10)
+        // Se omite si estamos en modo test para facilitar pruebas rápidas
         if (!modoTest.get() && !validarCedulaEcuatoriana(id.trim())) {
-            throw new Exception("La cédula ingresada es incorrecta.");
+            throw new Exception("Error: La cédula ingresada no es válida o no existe.");
         }
 
-        // 3. Validar y parsear edad
+        // 3. Validación de Nombre (Regex: Solo letras y espacios)
+        if (!nombres.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            throw new Exception("Error: El nombre solo debe contener letras.");
+        }
+
+        // 4. Transformación y Validación de Edad
         int edad;
         try {
             edad = Integer.parseInt(edadStr.trim());
         } catch (NumberFormatException e) {
-            throw new Exception("La edad debe ser un número válido.");
+            throw new Exception("Error: La edad debe ser un número entero.");
         }
 
-        if (edad <= 0) {
-            throw new Exception("La edad debe ser mayor a 0.");
-        }
-        
-        if (edad > 150) {
-            throw new Exception("La edad no puede ser mayor a 150.");
+        if (edad < 16 || edad > 100) {
+            throw new Exception("Error: La edad debe estar entre 16 y 100 años.");
         }
 
-        // 4. Crear y retornar el estudiante validado
+        // 5. Creación Final (Solo si todo pasó)
+        System.out.println("✅ [FACTORY] Validaciones exitosas. Objeto creado.");
         return new Estudiante(id.trim(), nombres.trim(), edad);
     }
 
     /**
-     * Crea un estudiante desde una línea de archivo (deserialización)
-     * Formato esperado: cedula,nombres,edad
-     * @param linea Línea del archivo en formato CSV
-     * @return Estudiante creado desde el archivo
-     * @throws Exception Si el formato es inválido
-     */
-    public static Estudiante crearDesdeArchivo(String linea) throws Exception {
-        if (linea == null || linea.trim().isEmpty()) {
-            throw new Exception("Línea de archivo vacía.");
-        }
-
-        String[] partes = linea.split(",");
-        if (partes.length != 3) {
-            throw new Exception("Formato de archivo inválido. Esperado: cedula,nombres,edad");
-        }
-
-        try {
-            String id = partes[0].trim();
-            String nombres = partes[1].trim();
-            int edad = Integer.parseInt(partes[2].trim());
-
-            // Crear directamente sin validación exhaustiva (datos ya validados al guardar)
-            return new Estudiante(id, nombres, edad);
-        } catch (NumberFormatException e) {
-            throw new Exception("Error al parsear edad desde archivo: " + linea);
-        }
-    }
-
-    /**
-     * Crea un estudiante para actualización (sin validar cédula duplicada)
-     * @param id Cédula existente
-     * @param nombres Nuevos nombres
-     * @param edadStr Nueva edad
-     * @return Estudiante actualizado
-     * @throws Exception Si hay errores de validación
+     * Método fábrica para actualizaciones (Validaciones relajadas si es necesario)
      */
     public static Estudiante crearParaActualizacion(String id, String nombres, String edadStr) throws Exception {
-        // Validaciones básicas sin validar duplicidad de cédula
-        if (nombres == null || nombres.trim().isEmpty()) {
-            throw new Exception("Los nombres no pueden estar vacíos.");
-        }
-
-        int edad;
-        try {
-            edad = Integer.parseInt(edadStr.trim());
-        } catch (NumberFormatException e) {
-            throw new Exception("La edad debe ser un número válido.");
-        }
-
-        if (edad <= 0 || edad > 150) {
-            throw new Exception("La edad debe estar entre 1 y 150.");
-        }
-
-        return new Estudiante(id.trim(), nombres.trim(), edad);
+        // Reutilizamos la lógica o aplicamos reglas específicas para editar
+        return crearEstudiante(id, nombres, edadStr);
     }
 
-    /**
-     * Valida una cédula ecuatoriana mediante el algoritmo oficial
-     * @param cedula Cédula a validar (10 dígitos)
-     * @return true si es válida, false en caso contrario
-     */
+    // --- ALGORITMO DE VALIDACIÓN (Privado) ---
     private static boolean validarCedulaEcuatoriana(String cedula) {
-        if (cedula == null || cedula.length() != 10) {
-            return false;
-        }
+        if (cedula == null || cedula.length() != 10 || !cedula.matches("\\d+")) return false;
 
         try {
-            // Validar que sean solo dígitos
-            if (!cedula.matches("\\d{10}")) {
-                return false;
-            }
-
-            // Validar código de provincia (01-24)
             int provincia = Integer.parseInt(cedula.substring(0, 2));
-            if (provincia < 1 || provincia > 24) {
-                return false;
-            }
+            if (provincia < 1 || provincia > 24) return false;
 
-            // Validar tercer dígito (solo personas naturales: 0-5)
             int tercerDigito = Integer.parseInt(cedula.substring(2, 3));
-            if (tercerDigito >= 6) {
-                return false;
-            }
+            if (tercerDigito >= 6) return false; // Solo personas naturales
 
-            // Algoritmo de validación del dígito verificador
             int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2};
             int suma = 0;
-
             for (int i = 0; i < 9; i++) {
-                int digito = Integer.parseInt(String.valueOf(cedula.charAt(i)));
-                int producto = digito * coeficientes[i];
-                suma += (producto > 9) ? producto - 9 : producto;
+                int valor = Character.getNumericValue(cedula.charAt(i)) * coeficientes[i];
+                suma += (valor > 9) ? valor - 9 : valor;
             }
 
-            int digitoVerificador = Integer.parseInt(String.valueOf(cedula.charAt(9)));
-            int decenaSuperior = (suma % 10 == 0) ? suma : ((suma / 10) + 1) * 10;
-            int digitoCalculado = decenaSuperior - suma;
+            int digitoVerificador = Character.getNumericValue(cedula.charAt(9));
+            int calculo = (suma % 10 == 0) ? 0 : (10 - (suma % 10));
 
-            return digitoCalculado == digitoVerificador;
-
-        } catch (NumberFormatException e) {
+            return digitoVerificador == calculo;
+        } catch (Exception e) {
             return false;
         }
     }
