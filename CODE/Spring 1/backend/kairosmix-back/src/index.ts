@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { Database } from './database/Database.js';
 import productRoutes from './routes/productRoutes.js';
+import clientRoutes from './routes/clientRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ db.connect();
 app.use(cors());
 app.use(express.json());
 app.use('/api/products', productRoutes);
+app.use('/api/clients', clientRoutes);
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
