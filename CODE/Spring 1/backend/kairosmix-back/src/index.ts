@@ -1,42 +1,21 @@
-// src/index.ts
-
-import express, { Request, Response } from 'express';
+import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
-import connectDB from './db.js';
+import { Database } from './database/Database.js';
+import productRoutes from './routes/productRoutes.js';
 
-// Cargar variables de entorno del archivo .env
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Intenta conectar a la DB (no bloquea el inicio del servidor)
-connectDB(); 
+// Inicializar Singleton DB
+const db = Database.getInstance();
+db.connect();
 
-// Middleware
-app.use(express.json()); 
+app.use(cors());
+app.use(express.json());
+app.use('/api/products', productRoutes);
 
-// Ruta de Prueba
-app.get('/', (req: Request, res: Response) => {
-    // Agregamos un console.log aquí para confirmar que esta ruta sí se ejecuta
-    console.log('Petición recibida en /');
-    res.send('Servidor KairosMix Back-end inicializado. Estado de DB: Revisar consola.');
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
-
-// Inicio del Servidor
-// --- CAMBIO CLAVE: Usamos una función asíncrona principal (aunque no siempre es necesario, 
-// es más seguro para entornos modernos) ---
-const startServer = async () => {
-    app.listen(PORT, () => {
-        console.log(`\n-----------------------------------------`);
-        console.log(`🚀 Servidor de KairosMix corriendo en http://localhost:${PORT}`);
-        console.log(`-----------------------------------------`);
-    });
-}
-
-// Llamar a la función principal
-startServer();
-
-// IMPORTANTE: Asegúrate de que no haya código de inicialización o manejo 
-// de errores asíncronos que llame a process.exit() en db.ts o index.ts. 
-// (Ya corregimos esto en los pasos anteriores, pero es la causa principal del "clean exit").
