@@ -7,6 +7,7 @@ export interface IProductRepository {
     findById(id: string): Promise<IProduct | null>;
     update(id: string, data: Partial<IProduct>): Promise<IProduct | null>;
     search(query: string): Promise<IProduct[]>;
+    deactivateProduct(id: string): Promise<IProduct | null>;
 }
 
 export class MongoProductRepository implements IProductRepository {
@@ -50,5 +51,13 @@ export class MongoProductRepository implements IProductRepository {
             ],
             isActive: true
         });
+    }
+
+    async deactivateProduct(id: string): Promise<IProduct | null> {
+        return await Product.findOneAndUpdate(
+            { _id: id, isActive: true },
+            { isActive: false },
+            { new: true }
+        );
     }
 }

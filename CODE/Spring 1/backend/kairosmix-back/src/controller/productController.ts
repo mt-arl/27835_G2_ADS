@@ -104,3 +104,24 @@ export const searchProducts = async (req: Request, res: Response): Promise<void>
         res.status(500).json({ message: 'Error interno', error });
     }
 };
+
+// --- Desactivar producto ---
+export const deactivateProduct = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        
+        const product = await productRepo.deactivateProduct(id);
+        
+        if (!product) {
+            res.status(404).json({ message: 'Producto no encontrado o ya está inactivo' });
+            return;
+        }
+        
+        res.status(200).json({ 
+            message: 'Producto desactivado exitosamente', 
+            product 
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al desactivar producto', error });
+    }
+};
