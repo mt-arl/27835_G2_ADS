@@ -45,3 +45,45 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
         res.status(500).json({ message: 'Error al obtener productos', error });
     }
 };
+
+// --- Actualizar ---
+export const updateProduct = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const { name, pricePerPound, wholesalePrice, retailPrice, originCountry, currentStock, imageUrl } = req.body;
+
+        // Validar currentStock
+        if (currentStock !== undefined && currentStock < 0) {
+            res.status(400).json({ message: 'El stock no puede ser negativo' });
+            return;
+        }
+
+        // Validar precios
+        if ((pricePerPound !== undefined && pricePerPound <= 0.01) ||
+            (wholesalePrice !== undefined && wholesalePrice <= 0.01) ||
+            (retailPrice !== undefined && retailPrice <= 0.01)) {
+            res.status(400).json({ message: 'Los precios deben ser mayores a 0.01' });
+            return;
+        }
+
+        const updateData: any = {};
+        if (name !== undefined) updateData.name = name;
+        if (pricePerPound !== undefined) updateData.pricePerPound = pricePerPound;
+        if (wholesalePrice !== undefined) updateData.wholesalePrice = wholesalePrice;
+        if (retailPrice !== undefined) updateData.retailPrice = retailPrice;
+        if (originCountry !== undefined) updateData.originCountry = originCountry;
+        if (currentStock !== undefined) updateData.currentStock = currentStock;
+        if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
+
+        const updatedProduct = await productRepo.update(id, updateData);
+
+        if (!updatedProduct) {
+            res.status(404).json({ message: 'Producto no encontrado' });
+            return;
+        }
+
+        res.status(200).json({ message: 'Producto actualizado', product: updatedProduct });
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno', error });
+    }
+};
