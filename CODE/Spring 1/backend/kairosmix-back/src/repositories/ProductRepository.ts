@@ -5,6 +5,7 @@ export interface IProductRepository {
     countByInitial(initial: string): Promise<number>;
     findAll(): Promise<IProduct[]>;
     findById(id: string): Promise<IProduct | null>;
+    update(id: string, data: Partial<IProduct>): Promise<IProduct | null>;
 }
 
 export class MongoProductRepository implements IProductRepository {
@@ -29,5 +30,13 @@ export class MongoProductRepository implements IProductRepository {
             return null;
         }
         return product;
+    }
+
+    async update(id: string, data: Partial<IProduct>): Promise<IProduct | null> {
+        return await Product.findOneAndUpdate(
+            { _id: id, isActive: true },
+            data,
+            { new: true }
+        );
     }
 }
