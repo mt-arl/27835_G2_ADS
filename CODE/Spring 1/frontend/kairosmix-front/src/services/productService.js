@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/products';
+const API_URL = 'http://localhost:3000/api/products';
 
 export const createProduct = async (productData) => {
     try {
