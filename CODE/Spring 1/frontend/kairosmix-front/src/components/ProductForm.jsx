@@ -11,13 +11,17 @@ export default function ProductForm({ productToEdit, onSuccess }) {
         imageUrl: productToEdit?.imageUrl || ''
     });
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
+       const { name, value } = e.target;
+       setError(''); // Limpiar errores cuando el usuario escribe
+       setFormData({
+           ...formData,
+           [name]: value
+       });
+   };
 
     return (
         <div>
@@ -91,6 +95,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                         value={formData.imageUrl}
                         onChange={handleChange}
                     />
+                     {error && <p style={{ color: 'red' }}>{error}</p>}
                 </div>
                 <button type="submit">
                     {productToEdit ? 'Actualizar' : 'Crear'}
