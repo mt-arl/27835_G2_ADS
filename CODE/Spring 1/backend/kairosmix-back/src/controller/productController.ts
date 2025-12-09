@@ -87,3 +87,20 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
         res.status(500).json({ message: 'Error interno', error });
     }
 };
+
+// --- Buscar ---
+export const searchProducts = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { q } = req.query;
+
+        if (!q || q.toString().trim() === '') {
+            res.status(400).json({ message: 'Debe proporcionar un término de búsqueda' });
+            return;
+        }
+
+        const products = await productRepo.search(q.toString());
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Error interno', error });
+    }
+};
