@@ -6,6 +6,7 @@ export interface IProductRepository {
     findAll(): Promise<IProduct[]>;
     findById(id: string): Promise<IProduct | null>;
     update(id: string, data: Partial<IProduct>): Promise<IProduct | null>;
+    search(query: string): Promise<IProduct[]>;
 }
 
 export class MongoProductRepository implements IProductRepository {
@@ -38,5 +39,16 @@ export class MongoProductRepository implements IProductRepository {
             data,
             { new: true }
         );
+    }
+
+    async search(query: string): Promise<IProduct[]> {
+        const regex = new RegExp(query, 'i');
+        return await Product.find({
+            $or: [
+                { code: regex },
+                { name: regex }
+            ],
+            isActive: true
+        });
     }
 }
