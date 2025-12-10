@@ -1,73 +1,246 @@
+/* ============================================
+   ProductForm - Formulario de Productos
+   ============================================ */
+
 .product-form {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    margin: var(--spacing-xl) auto;
+    max-width: 1200px;
+    width: 100%;
+    border: 1px solid var(--gray-100);
+}
+
+.product-form .form-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--gray-100);
+}
+
+.product-form .form-icon {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.product-form .form-icon svg {
+    width: 36px;
+    height: 36px;
+    stroke: white;
+    stroke-width: 2;
 }
 
 .product-form h2 {
-    margin-top: 0;
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.product-form h2::before {
+    display: none;
+}
+
+.product-form .form-subtitle {
+    color: var(--gray-500);
+    font-size: var(--font-size-sm);
+    margin: var(--spacing-xs) 0 0 0;
 }
 
 .product-form form {
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-lg);
 }
 
-.product-form div {
-    margin-bottom: 15px;
+.product-form .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.product-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
 }
 
 .product-form label {
-    display: block;
-    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
     font-weight: 600;
-    color: #555;
+    font-size: var(--font-size-sm);
+    color: var(--gray-700);
+    margin-bottom: 0;
 }
 
-.product-form input {
+.product-form label::after {
+    display: none;
+}
+
+.product-form .label-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-form .label-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--primary-color);
+    stroke-width: 2;
+}
+
+.product-form input,
+.product-form select {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
+    padding: var(--spacing-md);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-primary);
+    transition: all 0.2s ease;
+    background-color: white;
 }
 
-.product-form input:focus {
+.product-form input:focus,
+.product-form select:focus {
     outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-.product-form button {
-    padding: 12px;
-    background-color: #4CAF50;
+.product-form input::placeholder {
+    color: var(--gray-400);
+}
+
+.product-form select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg width=\"12\" height=\"8\" viewBox=\"0 0 12 8\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M1 1L6 6L11 1\" stroke=\"%234b5563\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-md) center;
+    padding-right: calc(var(--spacing-md) * 2.5);
+}
+
+.product-form .error-message {
+    color: var(--error);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    background-color: #fef2f2;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--error);
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.product-form .form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.product-form .btn-primary {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: var(--radius-lg);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
 }
 
-.product-form button:hover:not(:disabled) {
-    background-color: #45a049;
+.product-form .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
-.product-form button:disabled {
-    background-color: #ccc;
+.product-form .btn-primary:disabled {
+    background: var(--gray-300);
     cursor: not-allowed;
+    transform: none;
 }
 
-.product-form p {
-    margin: 0;
-    font-size: 14px;
+.product-form .btn-secondary {
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    background: white;
+    color: var(--gray-700);
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
+
+.product-form .btn-secondary:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-400);
+}
+
+.product-form .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-form .btn-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+.product-form .btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .product-form {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md) 0;
+    }
+    
+    .product-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .product-form .form-actions {
+        flex-direction: column;
+    }
+    
+    .product-form .btn-secondary {
+        order: 2;
+    }
+}
+

@@ -1,41 +1,88 @@
-import { useState } from 'react';
-import ProductForm from './components/ProductForm';
+import { useState, useEffect } from 'react';
+import ProductModal from './components/ProductModal';
 import ProductSearch from './components/ProductSearch';
 import ProductTable from './components/ProductTable';
+import { searchProducts } from './services/productService.js';
 import './App.css';
 
 function App() {
     const [productToEdit, setProductToEdit] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
     const [searchResults, setSearchResults] = useState([]);
 
+    useEffect(() => {
+        if (window.lucide) {
+            setTimeout(() => window.lucide.createIcons(), 0);
+        }
+    }, [searchResults, productToEdit]);
+
     const handleFormSuccess = () => {
         setProductToEdit(null);
-        setRefreshKey(refreshKey + 1);
+        setIsModalOpen(false);
+        setRefreshKey(prev => prev + 1);
     };
 
     const handleSearch = async (query) => {
         try {
-            const { searchProducts: searchProductsService } = await import('./services/productService.js');
-            const results = await searchProductsService(query);
+            const results = await searchProducts(query);
             setSearchResults(results);
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
+    const handleEdit = (product) => {
+        setProductToEdit(product);
+        setIsModalOpen(true);
+    };
+
+    const handleNewProduct = () => {
+        setProductToEdit(null);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setProductToEdit(null);
+    };
+
     return (
         <div className="app">
-            <h1>Gestión de Productos - KairosMix</h1>
-            <ProductForm 
-                productToEdit={productToEdit} 
-                onSuccess={handleFormSuccess}
-            />
-            <ProductSearch onSearch={handleSearch} />
-            <ProductTable 
-                products={searchResults} 
-                onEdit={setProductToEdit}
-            />
+            <header className="app-header">
+                <div className="header-content">
+                    <div className="header-left">
+                        <div className="app-icon">
+                            <i data-lucide="store"></i>
+                        </div>
+                        <div className="header-text">
+                            <h1>KairosMix</h1>
+                            <p className="header-subtitle">Sistema de Gestión de Productos</p>
+                        </div>
+                    </div>
+                    <nav className="header-nav">
+                        <button onClick={handleNewProduct} className="btn-new-product">
+                            <i data-lucide="plus" className="nav-icon"></i>
+                            Nuevo Producto
+                        </button>
+                    </nav>
+                </div>
+            </header>
+
+            <main className="app-container">
+                <ProductSearch onSearch={handleSearch} />
+                
+                {searchResults.length > 0 && (
+                    <ProductTable products={searchResults} onEdit={handleEdit} />
+                )}
+
+                <ProductModal 
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    productToEdit={productToEdit}
+                    onSuccess={handleFormSuccess}
+                />
+            </main>
         </div>
     );
 }
