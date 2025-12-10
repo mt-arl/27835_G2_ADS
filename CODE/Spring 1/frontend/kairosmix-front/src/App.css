@@ -148,7 +148,8 @@ body {
     gap: var(--spacing-md);
 }
 
-.app-header .btn-new-product {
+.app-header .btn-new-product,
+.app-header .btn-new-client {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
@@ -164,19 +165,26 @@ body {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.app-header .btn-new-product:hover {
+.app-header .btn-new-client {
+    color: var(--accent-color);
+}
+
+.app-header .btn-new-product:hover,
+.app-header .btn-new-client:hover {
     background: var(--gray-50);
     transform: translateY(-1px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.app-header .btn-new-product .nav-icon {
+.app-header .btn-new-product .nav-icon,
+.app-header .btn-new-client .nav-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-.app-header .btn-new-product .nav-icon svg {
+.app-header .btn-new-product .nav-icon svg,
+.app-header .btn-new-client .nav-icon svg {
     width: 18px;
     height: 18px;
     stroke-width: 2;
@@ -313,6 +321,47 @@ body {
     .app-header .header-left {
         flex-direction: column;
         align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+}
+
+/* Modal overlay for client form */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.modal-content {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
         gap: var(--spacing-sm);
     }
     

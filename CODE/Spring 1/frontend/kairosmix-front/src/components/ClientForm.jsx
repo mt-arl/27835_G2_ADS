@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './ClientForm.css';
 
-const ClientForm = ({ onSubmit, onCancel }) => {
+const ClientForm = ({ onSubmit, onCancel, isSubmitting }) => {
   const [formData, setFormData] = useState({
     cedula: '',
     nombre: '',
@@ -64,10 +64,15 @@ const ClientForm = ({ onSubmit, onCancel }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      onSubmit(formData);
+      const success = await onSubmit(formData);
+      if (success) {
+        // Reset form on success
+        setFormData({ cedula: '', nombre: '', correo: '', telefono: '', direccion: '' });
+        setErrors({});
+      }
     }
   };
 
@@ -146,8 +151,12 @@ const ClientForm = ({ onSubmit, onCancel }) => {
       </div>
       
       <div className="form-actions">
-        <button type="submit" className="btn-submit">Registrar</button>
-        <button type="button" className="btn-cancel" onClick={onCancel}>Cancelar</button>
+        <button type="submit" className="btn-submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Registrando...' : 'Registrar'}
+        </button>
+        <button type="button" className="btn-cancel" onClick={onCancel} disabled={isSubmitting}>
+          Cancelar
+        </button>
       </div>
     </form>
   );

@@ -2,18 +2,22 @@ import { useState, useEffect } from 'react';
 import ProductModal from './components/ProductModal';
 import ProductSearch from './components/ProductSearch';
 import ProductTable from './components/ProductTable';
+import ClientForm from './components/ClientForm';
+import { createClient } from './services/clientService';
 import './App.css';
 
 function App() {
     const [productToEdit, setProductToEdit] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+    const [showClientForm, setShowClientForm] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (window.lucide) {
             setTimeout(() => window.lucide.createIcons(), 0);
         }
-    }, [searchResults, productToEdit]);
+    }, [searchResults, productToEdit, showClientForm]);
 
     const handleFormSuccess = () => {
         setProductToEdit(null);
@@ -40,6 +44,29 @@ function App() {
         setProductToEdit(null);
     };
 
+    const handleNewClient = () => {
+        setShowClientForm(true);
+    };
+
+    const handleCloseClientForm = () => {
+        setShowClientForm(false);
+    };
+
+    const handleClientSubmit = async (clientData) => {
+        setIsSubmitting(true);
+        try {
+            await createClient(clientData);
+            alert('Cliente registrado exitosamente');
+            setShowClientForm(false);
+            return true;
+        } catch (error) {
+            alert(error.message || 'Error al registrar cliente');
+            return false;
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="app">
             <header className="app-header">
@@ -58,6 +85,10 @@ function App() {
                             <i data-lucide="plus" className="nav-icon"></i>
                             Nuevo Producto
                         </button>
+                        <button onClick={handleNewClient} className="btn-new-client">
+                            <i data-lucide="user-plus" className="nav-icon"></i>
+                            Nuevo Cliente
+                        </button>
                     </nav>
                 </div>
             </header>
@@ -75,6 +106,18 @@ function App() {
                     productToEdit={productToEdit}
                     onSuccess={handleFormSuccess}
                 />
+
+                {showClientForm && (
+                    <div className="modal-overlay" onClick={handleCloseClientForm}>
+                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <ClientForm 
+                                onSubmit={handleClientSubmit}
+                                onCancel={handleCloseClientForm}
+                                isSubmitting={isSubmitting}
+                            />
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );
