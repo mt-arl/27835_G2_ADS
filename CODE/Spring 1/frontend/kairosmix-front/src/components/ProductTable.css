@@ -233,6 +233,19 @@
     stroke: #059669;
 }
 
+/* Delete Icon - Red on Hover */
+.product-table .icon-button.delete-icon svg {
+    stroke: #9ca3af;
+}
+
+.product-table .icon-button.delete-icon:hover {
+    background: #fee2e2;
+}
+
+.product-table .icon-button.delete-icon:hover svg {
+    stroke: #dc2626;
+}
+
 .product-table .icon-button:active {
     transform: scale(0.95);
 }

@@ -37,3 +37,10 @@ export const getProductById = async (id) => {
     const response = await fetch(`${API_URL}/${id}`);
     return handleResponse(response, 'Producto no encontrado');
 };
+
+export const deactivateProduct = async (id) => {
+    const response = await fetch(`${API_URL}/${id}/deactivate`, {
+        method: 'PATCH'
+    });
+    return handleResponse(response, 'Error al eliminar producto');
+};

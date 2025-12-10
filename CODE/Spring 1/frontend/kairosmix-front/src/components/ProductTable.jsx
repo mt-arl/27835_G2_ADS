@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './ProductTable.css';
 
-export default function ProductTable({ products, onEdit }) {
+export default function ProductTable({ products, onEdit, onDelete }) {
     useEffect(() => {
         if (window.lucide) {
             setTimeout(() => window.lucide.createIcons(), 0);
@@ -68,6 +68,13 @@ export default function ProductTable({ products, onEdit }) {
                                             title="Editar producto"
                                         >
                                             <i data-lucide="pencil"></i>
+                                        </button>
+                                        <button 
+                                            className="icon-button delete-icon"
+                                            onClick={() => onDelete(product)}
+                                            title="Eliminar producto"
+                                        >
+                                            <i data-lucide="trash-2"></i>
                                         </button>
                                     </div>
                                 </td>

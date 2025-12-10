@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { createClient } from '../services/clientService';
 import './ClientForm.css';
 
-const ClientForm = ({ onSubmit, onCancel, isSubmitting }) => {
+const ClientForm = ({ onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
     cedula: '',
     nombre: '',
@@ -10,6 +11,7 @@ const ClientForm = ({ onSubmit, onCancel, isSubmitting }) => {
     direccion: ''
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,13 +68,35 @@ const ClientForm = ({ onSubmit, onCancel, isSubmitting }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      const success = await onSubmit(formData);
-      if (success) {
-        // Reset form on success
-        setFormData({ cedula: '', nombre: '', correo: '', telefono: '', direccion: '' });
-        setErrors({});
-      }
+    
+    if (!validate()) return;
+
+    setLoading(true);
+
+    try {
+      await createClient(formData);
+      
+      await window.Swal.fire({
+        icon: 'success',
+        title: '¡Registrado!',
+        text: 'Cliente registrado exitosamente',
+        confirmButtonColor: '#10b981',
+        timer: 2000
+      });
+
+      setFormData({ cedula: '', nombre: '', correo: '', telefono: '', direccion: '' });
+      setErrors({});
+      onSuccess();
+      onCancel();
+    } catch (error) {
+      window.Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'Error al registrar cliente',
+        confirmButtonColor: '#10b981'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -151,10 +175,10 @@ const ClientForm = ({ onSubmit, onCancel, isSubmitting }) => {
       </div>
       
       <div className="form-actions">
-        <button type="submit" className="btn-submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Registrando...' : 'Registrar'}
+        <button type="submit" className="btn-submit" disabled={loading}>
+          {loading ? 'Registrando...' : 'Registrar'}
         </button>
-        <button type="button" className="btn-cancel" onClick={onCancel} disabled={isSubmitting}>
+        <button type="button" className="btn-cancel" onClick={onCancel} disabled={loading}>
           Cancelar
         </button>
       </div>
