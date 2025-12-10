@@ -3,7 +3,7 @@ import { createProduct, updateProduct } from '../services/productService.js';
 import './ProductModal.css';
 
 export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess }) {
-    const [formData, setFormData] = useState({
+    const initialFormState = {
         name: '',
         pricePerPound: '',
         wholesalePrice: '',
@@ -11,8 +11,9 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
         originCountry: '',
         currentStock: '',
         imageUrl: ''
-    });
+    };
 
+    const [formData, setFormData] = useState(initialFormState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -39,15 +40,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
     }, [isOpen, formData]);
 
     const resetForm = () => {
-        setFormData({
-            name: '',
-            pricePerPound: '',
-            wholesalePrice: '',
-            retailPrice: '',
-            originCountry: '',
-            currentStock: '',
-            imageUrl: ''
-        });
+        setFormData(initialFormState);
         setError('');
     };
 
@@ -58,19 +51,21 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
     };
 
     const validateForm = () => {
-        if (!formData.name || !formData.pricePerPound || !formData.wholesalePrice || 
-            !formData.retailPrice || !formData.originCountry || formData.currentStock === '') {
+        const { name, pricePerPound, wholesalePrice, retailPrice, originCountry, currentStock } = formData;
+        
+        if (!name || !pricePerPound || !wholesalePrice || !retailPrice || !originCountry || currentStock === '') {
             setError('Todos los campos son requeridos');
             return false;
         }
 
-        if (parseFloat(formData.currentStock) < 0) {
+        const stock = parseFloat(currentStock);
+        if (stock < 0) {
             setError('El stock no puede ser negativo');
             return false;
         }
 
-        const prices = [formData.pricePerPound, formData.wholesalePrice, formData.retailPrice];
-        if (prices.some(price => parseFloat(price) <= 0)) {
+        const prices = [parseFloat(pricePerPound), parseFloat(wholesalePrice), parseFloat(retailPrice)];
+        if (prices.some(price => price <= 0)) {
             setError('Los precios deben ser mayores a 0');
             return false;
         }
@@ -88,29 +83,27 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
 
         try {
             const isEditing = !!productToEdit;
+            const { name, pricePerPound, wholesalePrice, retailPrice, originCountry, currentStock, imageUrl } = formData;
             
             const productData = {
-                name: formData.name,
-                pricePerPound: parseFloat(formData.pricePerPound),
-                wholesalePrice: parseFloat(formData.wholesalePrice),
-                retailPrice: parseFloat(formData.retailPrice),
-                originCountry: formData.originCountry,
-                imageUrl: formData.imageUrl
+                name,
+                pricePerPound: parseFloat(pricePerPound),
+                wholesalePrice: parseFloat(wholesalePrice),
+                retailPrice: parseFloat(retailPrice),
+                originCountry,
+                imageUrl,
+                [isEditing ? 'currentStock' : 'initialStock']: parseFloat(currentStock)
             };
 
-            // Al CREAR: enviar initialStock
-            // Al EDITAR: enviar currentStock
             if (isEditing) {
-                productData.currentStock = parseFloat(formData.currentStock);
                 await updateProduct(productToEdit._id, productData);
             } else {
-                productData.initialStock = parseFloat(formData.currentStock);
                 await createProduct(productData);
             }
 
-            window.Swal.fire({
+            await window.Swal.fire({
                 icon: 'success',
-                title: isEditing ? '¡Actualizado!' : '¡Creado!',
+                title: `¡${isEditing ? 'Actualizado' : 'Creado'}!`,
                 text: `Producto ${isEditing ? 'actualizado' : 'creado'} exitosamente`,
                 confirmButtonColor: '#10b981',
                 timer: 2000

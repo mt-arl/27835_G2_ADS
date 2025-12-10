@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import ProductModal from './components/ProductModal';
 import ProductSearch from './components/ProductSearch';
 import ProductTable from './components/ProductTable';
-import { searchProducts } from './services/productService.js';
 import './App.css';
 
 function App() {
     const [productToEdit, setProductToEdit] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [refreshKey, setRefreshKey] = useState(0);
     const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
@@ -20,16 +18,11 @@ function App() {
     const handleFormSuccess = () => {
         setProductToEdit(null);
         setIsModalOpen(false);
-        setRefreshKey(prev => prev + 1);
+        setSearchResults([]);
     };
 
-    const handleSearch = async (query) => {
-        try {
-            const results = await searchProducts(query);
-            setSearchResults(results);
-        } catch (error) {
-            console.error('Error:', error);
-        }
+    const handleSearchResults = (results) => {
+        setSearchResults(results);
     };
 
     const handleEdit = (product) => {
@@ -70,7 +63,7 @@ function App() {
             </header>
 
             <main className="app-container">
-                <ProductSearch onSearch={handleSearch} />
+                <ProductSearch onSearch={handleSearchResults} />
                 
                 {searchResults.length > 0 && (
                     <ProductTable products={searchResults} onEdit={handleEdit} />

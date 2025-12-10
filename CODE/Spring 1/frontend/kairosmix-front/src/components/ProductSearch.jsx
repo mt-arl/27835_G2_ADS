@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { searchProducts as searchProductsService } from '../services/productService.js';
+import { searchProducts as searchProductsService, getProducts } from '../services/productService.js';
 import './ProductSearch.css';
 
 export default function ProductSearch({ onSearch }) {
@@ -12,16 +12,20 @@ export default function ProductSearch({ onSearch }) {
         }
     }, [query]);
 
+    const showAlert = (icon, title, text) => {
+        window.Swal.fire({
+            icon,
+            title,
+            text,
+            confirmButtonColor: '#10b981'
+        });
+    };
+
     const handleSearch = async (e) => {
         e.preventDefault();
         
         if (!query.trim()) {
-            window.Swal.fire({
-                icon: 'warning',
-                title: 'Campo vacío',
-                text: 'Por favor ingresa un término de búsqueda',
-                confirmButtonColor: '#10b981'
-            });
+            showAlert('warning', 'Campo vacío', 'Por favor ingresa un término de búsqueda');
             return;
         }
 
@@ -32,15 +36,32 @@ export default function ProductSearch({ onSearch }) {
             onSearch(results);
         } catch (error) {
             console.error('Error:', error);
-            window.Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error en la búsqueda: ' + error.message,
-                confirmButtonColor: '#10b981'
-            });
+            showAlert('error', 'Error', 'Error en la búsqueda: ' + error.message);
+            onSearch([]);
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleShowAll = async () => {
+        setLoading(true);
+        setQuery('');
+        
+        try {
+            const allProducts = await getProducts();
+            onSearch(allProducts);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('error', 'Error', 'Error al cargar productos: ' + error.message);
+            onSearch([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleClear = () => {
+        setQuery('');
+        onSearch([]);
     };
 
     return (
@@ -67,16 +88,27 @@ export default function ProductSearch({ onSearch }) {
                         <button 
                             type="button" 
                             className="clear-input"
-                            onClick={() => setQuery('')}
+                            onClick={handleClear}
                         >
                             <i data-lucide="x"></i>
                         </button>
                     )}
                 </div>
-                <button type="submit" disabled={loading} className="btn-search">
-                    <i data-lucide="search" className="btn-icon"></i>
-                    {loading ? 'Buscando...' : 'BUSCAR'}
-                </button>
+                <div className="search-actions">
+                    <button type="submit" disabled={loading} className="btn-search">
+                        <i data-lucide="search" className="btn-icon"></i>
+                        {loading ? 'Buscando...' : 'BUSCAR'}
+                    </button>
+                    <button 
+                        type="button" 
+                        disabled={loading} 
+                        className="btn-show-all"
+                        onClick={handleShowAll}
+                    >
+                        <i data-lucide="list" className="btn-icon"></i>
+                        {loading ? 'Cargando...' : 'VER TODOS'}
+                    </button>
+                </div>
             </form>
         </div>
     );
