@@ -19,6 +19,3 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/clients', clientRoutes);
 
-app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-});
