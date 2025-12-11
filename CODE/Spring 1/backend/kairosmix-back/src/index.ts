@@ -5,6 +5,7 @@ import { Database } from './database/Database.js';
 import productRoutes from './routes/productRoutes.js';
 import clientRoutes from './routes/clientRoutes.js';
 
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;

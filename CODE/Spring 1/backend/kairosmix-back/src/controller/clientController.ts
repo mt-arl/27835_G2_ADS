@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { MongoClientRepository } from '../repositories/ClientRepository.js';
+import { RepositoryFactory } from '../factories/RepositoryFactory.js'; // <--- FACTORY
 
-const clientRepo = new MongoClientRepository();
+// Usamos Factory
+const clientRepo = RepositoryFactory.getClientRepository();
 
 // Crear cliente
 export const createClient = async (req: Request, res: Response): Promise<void> => {
