@@ -1,0 +1,460 @@
+{
+	"info": {
+		"_postman_id": "59ec754d-cfca-4246-b215-e4f8fac2e833",
+		"name": "PINTAUTO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41705034"
+	},
+	"item": [
+		{
+			"name": "InicioSesion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"admin@pintauto.com\",\r\n  \"password\": \"admin123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerClientes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerTodasMP",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/materia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"materia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerOT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/ordenes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"ordenes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Cliente",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Juana\",\r\n  \"apellido\": \"Pérez\",\r\n  \"cedula\": \"1719138818\",\r\n  \"fechaNacimiento\": \"1990-01-01\",\r\n  \"telefono\": \"5551234567\",\r\n  \"email\": \"juana.peres@email.com\",\r\n  \"direccion\": \"Calle Falsa 123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditarCliente",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Maria\",\r\n  \"apellido\": \"Pérez\",\r\n  \"cedula\": \"1719138818\",\r\n  \"fechaNacimiento\": \"1990-01-01\",\r\n  \"telefono\": \"5551234567\",\r\n  \"email\": \"juana.peres@email.com\",\r\n  \"direccion\": \"Calle Falsa 123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/clientes/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"clientes",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Cliente",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/clientes/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"clientes",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearMateria",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Pintura Acrílica Violeta\",\r\n  \"descripcion\": \"Pintura de alta calidad para autos\",\r\n  \"cantidad\": 60,\r\n  \"unidadMedida\": \"litros\",\r\n  \"detalles\": \"litros de metal\",\r\n  \"precioUnitario\": 50.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/materia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"materia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Materia",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Pintura Acrílica ROJA\",\r\n  \"descripcion\": \"Pintura de alta calidad para autos\",\r\n   \"cantidad\": 60,\r\n  \"unidadMedida\": \"litros\",\r\n  \"detalles\": \"litros de metal\",\r\n  \"precioUnitario\": 50.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/materia/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"materia",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Materia",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/materia/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"materia",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearOT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titulo\": \"Cambio de frenos\",\r\n  \"descripcion\": \"Revisión y cambio de frenos delanteros.\",\r\n  \"vehiculo\": \"Nissan Sentra 2017\",\r\n  \"fechaCreacion\": \"2025-07-29T09:00:00\",\r\n  \"fechaFinalizacion\": \"14:00:00\",\r\n  \"horaCreacion\": \"09:00:00\",\r\n  \"horaFinalizacion\": \"14:00:00\",\r\n  \"usuarioId\": 1,\r\n  \"clienteId\": 2,\r\n  \"materiasPrimasYcantidades\": {\r\n    \"1\": 1.0,\r\n    \"3\": 2.0\r\n  },\r\n  \"valorMateriales\": 120.00\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/ordenes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"ordenes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar OT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titulo\": \"Cambio de pintura\",\r\n  \"descripcion\": \"Revisión y cambio de frenos delanteros.\",\r\n  \"vehiculo\": \"Nissan Sentra 2017\",\r\n  \"fechaCreacion\": \"2025-07-29T09:00:00\",\r\n  \"fechaFinalizacion\": \"14:00:00\",\r\n  \"horaCreacion\": \"09:00:00\",\r\n  \"horaFinalizacion\": \"14:00:00\",\r\n  \"usuarioId\": 1 ,\r\n  \"clienteId\": 2,\r\n  \"materiasPrimasYcantidades\": {\r\n    \"1\": 1.0,\r\n    \"3\": 2.0\r\n  },\r\n  \"valorMateriales\": 120.00\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/ordenes/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"ordenes",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar OT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBwaW50YXV0by5jb20iLCJpYXQiOjE3NTM3NjM0MjksImV4cCI6MTc1Mzc5MjIyOX0.Yqvc-CnlfcdhwdtJrr6EFVW3G_RFGgZIO2j-ZMoE_so",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/ordenes/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"ordenes",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
