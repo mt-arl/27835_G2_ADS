@@ -1,4 +1,4 @@
-# 📌 Versiones y Variantes
+#  Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS**         | **Versión/Variante** | **Fecha de creación** | **Autor(es)**                                   | **Localización**                                  | **Observaciones**                     | **Variante de requisitos de usuario** | **Variante de plataforma** |
 | ------------------ | ------------------------------- | -------------------- | --------------------- | ----------------------------------------------- | ------------------------------------------------- | ------------------------------------- | ------------------------------------- | -------------------------- |
