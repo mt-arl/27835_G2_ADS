@@ -1,0 +1,269 @@
+/* ============================================
+   ClientTable - Clean UI Design (consistent with ProductTable)
+   ============================================ */
+
+.client-table {
+    margin-top: var(--spacing-xl);
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.client-table .table-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.client-table h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--gray-800);
+    margin: 0;
+}
+
+.client-table .results-badge {
+    background: #f1f5f9;
+    color: var(--gray-600);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+/* Empty State */
+.client-table .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2xl);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    text-align: center;
+}
+
+.client-table .empty-state .empty-icon {
+    background: #f1f5f9;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: var(--spacing-lg);
+}
+
+.client-table .empty-state .empty-icon svg {
+    width: 40px;
+    height: 40px;
+    stroke: #94a3b8;
+    stroke-width: 2;
+}
+
+.client-table .empty-state h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--gray-700);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.client-table .empty-state p {
+    color: var(--gray-500);
+    font-size: var(--font-size-sm);
+    margin: 0;
+    max-width: 400px;
+}
+
+/* Table Container */
+.client-table .table-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    overflow: hidden;
+    border: 1px solid #f1f5f9;
+}
+
+.client-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Clean UI Header */
+.client-table thead {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.client-table th {
+    color: #64748b;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.client-table th:last-child {
+    text-align: center;
+}
+
+/* Table Body */
+.client-table tbody tr {
+    background: white;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.15s ease;
+}
+
+.client-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.client-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.client-table td {
+    padding: 16px;
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+}
+
+/* Cell Styles */
+.client-table .id-cell {
+    font-weight: 600;
+    color: #475569;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+}
+
+.client-table .name-cell {
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 14px;
+}
+
+.client-table .email-cell a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.client-table .email-cell a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.client-table .phone-cell {
+    font-family: 'Courier New', monospace;
+    color: #475569;
+}
+
+.client-table .address-cell {
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Action Cell */
+.client-table .action-cell {
+    text-align: center;
+}
+
+.client-table .action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.client-table .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.client-table .icon-button svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+/* Delete Icon */
+.client-table .icon-button.delete-icon svg {
+    stroke: #9ca3af;
+}
+
+.client-table .icon-button.delete-icon:hover {
+    background: #fee2e2;
+}
+
+.client-table .icon-button.delete-icon:hover svg {
+    stroke: #dc2626;
+}
+
+.client-table .icon-button:active {
+    transform: scale(0.95);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .client-table table {
+        font-size: var(--font-size-xs);
+    }
+    
+    .client-table th,
+    .client-table td {
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .client-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .client-table table {
+        min-width: 900px;
+        border-radius: var(--radius-md);
+    }
+    
+    .client-table th,
+    .client-table td {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-xs);
+    }
+}
+
+@media (max-width: 480px) {
+    .client-table table {
+        min-width: 800px;
+    }
+    
+    .client-table th,
+    .client-table td {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .client-table h3 {
+        font-size: var(--font-size-base);
+    }
+}
