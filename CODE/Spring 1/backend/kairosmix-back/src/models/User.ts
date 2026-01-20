@@ -19,11 +19,16 @@ const UserSchema: Schema = new Schema({
 }, { timestamps: true });
 
 // Hooks y Métodos
-UserSchema.pre<IUser>('save', async function (next) {
-    if (!this.isModified('password')) return next();
+// Hook pre-save corregido para Async/Await
+UserSchema.pre<IUser>('save', async function () { 
+    // 1. Si el password no se modificó, simplemente retornamos (la promesa se resuelve)
+    if (!this.isModified('password')) return; 
+
+    // 2. Generar el hash
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    next();
+    
+    // 3. No hace falta llamar a next(), al terminar la función la promesa se cumple sola.
 });
 
 UserSchema.methods.matchPassword = async function (enteredPassword: string): Promise<boolean> {

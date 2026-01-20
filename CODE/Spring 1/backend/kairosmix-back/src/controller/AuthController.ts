@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import RepositoryFactory from '../factories/RepositoryFactory.js';
-
+import { RepositoryFactory } from '../factories/RepositoryFactory.js';
 const userRepo = RepositoryFactory.getUserRepository('mongo');
 
 export const loginUser = async (req: Request, res: Response) => {

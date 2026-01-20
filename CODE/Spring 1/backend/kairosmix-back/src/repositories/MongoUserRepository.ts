@@ -1,8 +1,15 @@
 import User, { IUser } from '../models/User.js';
-import Database from '../database/Database.js';
+import { Database } from '../database/Database.js'; // CORRECCIÓN: Import con llaves
 
-export class MongoUserRepository {
-    private db = Database; // Singleton
+// Definimos la Interfaz
+export interface IUserRepository {
+    create(userData: Partial<IUser>): Promise<IUser>;
+    findByEmail(email: string): Promise<IUser | null>;
+}
+
+export class MongoUserRepository implements IUserRepository {
+    // CORRECCIÓN: Instancia del Singleton
+    private db = Database.getInstance(); 
 
     async create(userData: Partial<IUser>): Promise<IUser> {
         await this.db.connect();
