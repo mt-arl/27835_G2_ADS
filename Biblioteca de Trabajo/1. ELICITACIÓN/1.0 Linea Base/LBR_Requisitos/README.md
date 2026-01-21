@@ -7,6 +7,7 @@ Sistema de gestión empresarial para la administración de productos y clientes.
 
 ## Contenido principal:
 - Documento SRS (Especificación de Requisitos de Software)
+- Especificación de Requisitos Funcionales y no Funcionaes 
 
 ## Fecha de inicio:
 08 de enero de 2026

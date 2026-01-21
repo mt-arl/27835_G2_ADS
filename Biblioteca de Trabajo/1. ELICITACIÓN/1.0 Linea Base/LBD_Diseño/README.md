@@ -7,9 +7,7 @@ En esta carpeta están los documentos gráficos y diagramas que representan el d
 ### Diagramas UML:
 - **Diagramas de Casos de Uso**: Interacciones usuario-sistema
 - **Diagramas de Clases**: Estructura de entidades y relaciones
-- **Diagramas de Componentes**: Arquitectura del sistema
-- **Diagramas de Secuencia**: Flujos de comunicación
-- **Diagramas de Actividades**: Procesos de negocio
+- **Diagramas de Flujo**: Flujos de comunicación
 
 ### Arquitectura del Sistema:
 
