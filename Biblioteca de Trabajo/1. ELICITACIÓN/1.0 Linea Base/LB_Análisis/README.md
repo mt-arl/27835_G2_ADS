@@ -6,8 +6,6 @@ Esta carpeta contiene los documentos y diagramas relacionados con la fase de an�
 Sistema de gestión empresarial para administración de productos y clientes con arquitectura MERN Stack.
 
 ## Contenido principal:
-- Diagramas de casos de uso
-- Diagramas de actividades
 - Análisis de requisitos funcionales y no funcionales
 
 ## Fecha de inicio:
