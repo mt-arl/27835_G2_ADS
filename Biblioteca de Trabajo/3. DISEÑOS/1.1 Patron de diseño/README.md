@@ -1,7 +1,7 @@
 # 3.1.1 Patrones de Diseño
 
 ## Documentos Presentes
-- `Patrones de Diseño_kairozMixV1.0.pdf` - Documento de patrones de diseño implementados
+- `PAT_V1.0.pdf` - Documento de patrones de diseño implementados
 
 ## Versiones y Variantes
 
