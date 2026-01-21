@@ -1,15 +1,15 @@
 # Biblioteca de Trabajo - KairosMix
 
-## 📚 Definición
+## Definición
 La **Biblioteca de Trabajo** es el repositorio activo y dinámico del proyecto KairosMix, que contiene todos los artefactos específicos del proyecto en desarrollo. Esta biblioteca adapta y particulariza los estándares corporativos de la Biblioteca Maestra y se apoya en las directrices de la Biblioteca de Soporte para crear documentación y código contextualizado al proyecto actual.
 
-## 🎯 Propósito
+## Propósito
 - **Aplicativa y Dinámica**: Evoluciona durante todo el ciclo de vida del proyecto
 - **Adaptativa**: Personaliza estándares corporativos al contexto específico del proyecto
 - **Experimental**: Permite innovar y probar soluciones que pueden retroalimentar a la biblioteca maestra
 - **Colaborativa**: Facilita el trabajo del equipo con documentación viva y actualizada
 
-## 🏗️ Estructura de la Biblioteca
+## Estructura de la Biblioteca
 
 ### 1. ELICITACIÓN
 Contiene toda la documentación relacionada con la captura, análisis y gestión de requisitos del sistema:
@@ -38,7 +38,7 @@ Documentación técnica y arquitectónica del sistema:
 - **Diagrama de Clases**: Modelado de entidades y relaciones
 - **Diagrama de Componentes**: Estructura de componentes del sistema
 
-## 📋 Proyecto: KairosMix
+## Proyecto: KairosMix
 **Sistema de Gestión Empresarial para Administración de Productos y Clientes**
 
 ### Stack Tecnológico:
@@ -52,19 +52,19 @@ Documentación técnica y arquitectónica del sistema:
 2. **Gestión de Productos**: Control de inventario, precios y catálogo
 3. **Autenticación**: Control de acceso al sistema
 
-## 👥 Equipo de Desarrollo
+## Equipo de Desarrollo
 - **Matías Lugmaña** - Desarrollo Backend y DevOps
 - **Camilo Orrico** - Análisis y Diseño
 - **Denise Rea** - Gestión de Requisitos
 - **Julio Viche** - Diseño de Arquitectura
 
-## 📅 Información del Proyecto
+## Información del Proyecto
 - **Código**: 27835_G2_ADS
 - **Fecha de Inicio**: 08 de enero de 2026
 - **Estado**: En Desarrollo Activo
 - **Versión Actual**: 2.0
 
-## 🔄 Relación con otras Bibliotecas
+## Relación con otras Bibliotecas
 - **Biblioteca Maestra**: Proporciona estándares normativos que se adaptan aquí
 - **Biblioteca de Soporte**: Ofrece guías y recursos complementarios de referencia
 - **Biblioteca de Trabajo**: **(Esta)** Implementación práctica y contextual del proyecto

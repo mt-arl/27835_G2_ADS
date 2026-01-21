@@ -1,4 +1,4 @@
-# 📌 Pruebas del Proyecto
+# 1.8 Pruebas del Proyecto
 
 ## Descripción
 Contiene la documentación y resultados de las pruebas del proyecto KairosMix.
@@ -8,7 +8,10 @@ Contiene la documentación y resultados de las pruebas del proyecto KairosMix.
 
 ## Versiones y Variantes
 
-| **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| PRU | Pruebas del Proyecto | V1.0.0 | 08/01/2026 | Matías Lugmaña, Camilo Orrico, Denise Rea, Julio Viche | 27835_G2_ADS\Biblioteca de Trabajo\1. ELICITACIÓN\1.8 Prueba | Documentación de pruebas | Español | Windows 11 |
+| Código | Descripción | Versión | Fecha | Autor(es) | Observaciones | Idioma | Plataforma |
+|---------|-------------|---------|-------|-----------|---------------|--------|------------|
+| PRU | Pruebas del Proyecto | V1.0.0 | 08/01/2026 | Matías Lugmaña, Camilo Orrico, Denise Rea, Julio Viche | Documentación de pruebas | Español | Windows 11 |
+
+## Localización
+`27835_G2_ADS\Biblioteca de Trabajo\1. ELICITACIÓN\1.8 Prueba`
 

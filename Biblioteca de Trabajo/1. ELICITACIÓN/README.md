@@ -1,16 +1,16 @@
-# 📋 1. ELICITACIÓN
+# 1. ELICITACIÓN
 
-## 📖 Descripción
+## Descripción
 La carpeta de **Elicitación** contiene todos los artefactos relacionados con la captura, análisis, especificación y gestión de requisitos del proyecto KairosMix. Esta fase es fundamental para comprender las necesidades del negocio y traducirlas en especificaciones técnicas claras y medibles.
 
-## 🎯 Objetivos de la Elicitación
+## Objetivos de la Elicitación
 - Identificar y documentar requisitos funcionales y no funcionales
 - Establecer una comunicación efectiva con stakeholders
 - Crear líneas base que aseguren la trazabilidad del proyecto
 - Mantener un registro histórico de decisiones y cambios
 - Garantizar la calidad mediante pruebas y seguimiento de errores
 
-## 🗂️ Contenido de la Carpeta
+## Contenido de la Carpeta
 
 ### 1.0 Línea Base
 Versiones controladas y aprobadas de los artefactos principales del proyecto:
@@ -70,13 +70,28 @@ Documentación de validación y verificación:
 ### 1.8 Prueba
 Documentación adicional de pruebas del sistema.
 
-## 👥 Responsables
+## Proceso de Elicitación Aplicado
+
+1. **Captura de Requisitos**: Reuniones con stakeholders, entrevistas, workshops
+2. **Análisis**: Clasificación y priorización de requisitos
+3. **Especificación**: Documentación formal en SRS y casos de uso
+4. **Validación**: Revisión y aprobación con stakeholders
+5. **Gestión de Cambios**: Control de versiones y trazabilidad
+
+## Técnicas Utilizadas
+- Historias de Usuario (Metodología Ágil)
+- Casos de Uso Extendido (UML)
+- Especificación IEEE 830 (SRS)
+- Matriz de Trazabilidad
+- Backlog Priorizado
+
+## Responsables
 - **Denise Rea**: Gestión de Requisitos
 - **Camilo Orrico**: Análisis y Casos de Uso
 - **Matías Lugmaña**: Validación Técnica
 - **Julio Viche**: Diseño y Arquitectura
 
-## 📅 Información
+## Información
 - **Fecha de Inicio**: 08 de enero de 2026
 - **Estado**: Activo - En mantenimiento continuo
 - **Proyecto**: KairosMix - Sistema de Gestión Empresarial

@@ -1,4 +1,4 @@
-# 📌 Cronograma del Proyecto
+# 1.2 Cronograma del Proyecto
 
 ## Descripción
 Contiene el cronograma de actividades y planificación temporal del proyecto KairosMix.
@@ -8,7 +8,10 @@ Contiene el cronograma de actividades y planificación temporal del proyecto Kai
 
 ## Versiones y Variantes
 
-| **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| CRO | Cronograma de Proyecto | V1.0.0 | 08/01/2026 | Matías Lugmaña, Camilo Orrico, Denise Rea, Julio Viche | 27835_G2_ADS\Biblioteca de Trabajo\1. ELICITACIÓN\1.2 Cronograma | Primera versión del cronograma | Español | Windows 11 |
+| Código | Descripción | Versión | Fecha | Autor(es) | Observaciones | Idioma | Plataforma |
+|---------|-------------|---------|-------|-----------|---------------|--------|------------|
+| CRO | Cronograma de Proyecto | V1.0.0 | 08/01/2026 | Matías Lugmaña, Camilo Orrico, Denise Rea, Julio Viche | Primera versión del cronograma | Español | Windows 11 |
+
+## Localización
+`27835_G2_ADS\Biblioteca de Trabajo\1. ELICITACIÓN\1.2 Cronograma`
 
