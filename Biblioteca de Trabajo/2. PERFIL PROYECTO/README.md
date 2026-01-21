@@ -3,6 +3,9 @@
 ## Descripción
 Contiene la información del perfil del proyecto KairosMix con datos generales, objetivos y stakeholders.
 
+## Documentos Presentes
+- `G2_Perfil-Proyecto.pdf` - Documento de perfil del proyecto
+
 ## Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |

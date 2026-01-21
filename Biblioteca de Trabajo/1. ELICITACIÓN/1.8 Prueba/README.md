@@ -3,6 +3,9 @@
 ## Descripción
 Contiene la documentación y resultados de las pruebas del proyecto KairosMix.
 
+## Documentos Presentes
+*No hay documentos de pruebas en esta carpeta aún.*
+
 ## Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |

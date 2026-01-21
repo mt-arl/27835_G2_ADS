@@ -3,6 +3,9 @@
 ## Descripción
 Contiene la especificación formal de requisitos funcionales y no funcionales del sistema KairosMix.
 
+## Documentos Presentes
+- `G6_Capitulo2_SRS.docx.pdf` - Especificación de Requisitos de Software
+
 ## Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |

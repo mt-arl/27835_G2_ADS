@@ -3,6 +3,9 @@
 ## Descripción
 Contiene las actas y acuerdos de las reuniones del equipo del proyecto KairosMix.
 
+## Documentos Presentes
+- `ACT-001_V1.pdf` - Acta de reunión 001
+
 ## Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |

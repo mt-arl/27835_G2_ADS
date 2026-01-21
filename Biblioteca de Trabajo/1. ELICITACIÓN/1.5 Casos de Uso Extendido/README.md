@@ -3,6 +3,9 @@
 ## Descripción
 Contiene la especificación detallada de los casos de uso extendidos del sistema KairosMix.
 
+## Documentos Presentes
+- `G2_Casos de uso extendido V1.0.pdf` - Casos de uso extendidos del sistema
+
 ## Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |

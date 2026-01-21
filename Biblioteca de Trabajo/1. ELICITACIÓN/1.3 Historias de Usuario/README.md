@@ -3,6 +3,9 @@
 ## Descripción
 Contiene las historias de usuario que describen las funcionalidades requeridas del sistema KairosMix desde la perspectiva del usuario final.
 
+## Documentos Presentes
+- `G2_Matriz_de Marco de Trabajo HU_V1.0.xlsx` - Matriz de historias de usuario
+
 ## Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |

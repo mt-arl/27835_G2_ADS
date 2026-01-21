@@ -3,6 +3,9 @@
 ## Descripción
 Contiene el cronograma de actividades y planificación temporal del proyecto KairosMix.
 
+## Documentos Presentes
+- `Cronograma_spring1_V1.0.pdf` - Cronograma del Sprint 1
+
 ## Versiones y Variantes
 
 | **Código del ECS** | **Descripción del ECS** | **Versión/Variante** | **Fecha de creación** | **Autor(es)** | **Localización** | **Observaciones** | **Variante de requisitos de usuario** | **Variante de plataforma** |
