@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getClients } from '../services/clientService';
-import './ClientSearch.css';
+import { getClients } from '../../services/clientService';
 
 export default function ClientSearch({ onSearch }) {
     const [query, setQuery] = useState('');
@@ -23,7 +22,7 @@ export default function ClientSearch({ onSearch }) {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        
+
         if (!query.trim()) {
             showAlert('warning', 'Campo vacío', 'Por favor ingrese un término de búsqueda');
             return;
@@ -33,7 +32,7 @@ export default function ClientSearch({ onSearch }) {
 
         try {
             const allClients = await getClients();
-            const results = allClients.filter(client => 
+            const results = allClients.filter(client =>
                 client.nombre.toLowerCase().includes(query.toLowerCase()) ||
                 client.cedula.includes(query) ||
                 client.correo.toLowerCase().includes(query.toLowerCase()) ||
@@ -52,7 +51,7 @@ export default function ClientSearch({ onSearch }) {
     const handleShowAll = async () => {
         setLoading(true);
         setQuery('');
-        
+
         try {
             const allClients = await getClients();
             onSearch(allClients);
@@ -71,53 +70,56 @@ export default function ClientSearch({ onSearch }) {
     };
 
     return (
-        <div className="client-search">
-            <div className="search-header">
-                <div className="search-icon">
-                    <i data-lucide="search"></i>
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 flex items-center justify-center bg-linear-to-br from-amber-400 to-amber-600 rounded-xl shadow-lg shadow-amber-500/30">
+                    <i data-lucide="search" className="w-6 h-6 text-white"></i>
                 </div>
-                <div className="search-title">
-                    <h2>Buscar Clientes</h2>
-                    <p>Busque por nombre, identificación, correo o teléfono</p>
+                <div>
+                    <h2 className="text-lg font-bold text-slate-800">Buscar Clientes</h2>
+                    <p className="text-sm text-slate-500">Busque por nombre, identificación, correo o teléfono</p>
                 </div>
             </div>
 
-            <form onSubmit={handleSearch} className="search-form">
-                <div className="search-input-group">
+            <form onSubmit={handleSearch} className="space-y-4">
+                {/* Search Input Group */}
+                <div className="flex gap-3 flex-col sm:flex-row">
                     <input
                         type="text"
                         placeholder="Ingrese nombre, cédula, correo o teléfono..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="search-input"
+                        className="flex-1 px-4 py-3 text-base text-slate-800 bg-slate-50 border-2 border-slate-200 rounded-xl outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-100"
                     />
-                    <button 
-                        type="submit" 
-                        className="btn-search"
+                    <button
+                        type="submit"
+                        className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-amber-600 hover:to-amber-700 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
                         disabled={loading}
                     >
-                        <i data-lucide="search"></i>
+                        <i data-lucide="search" className="w-5 h-5"></i>
                         {loading ? 'Buscando...' : 'Buscar'}
                     </button>
                 </div>
 
-                <div className="search-actions">
+                {/* Action Buttons */}
+                <div className="flex gap-3 flex-wrap">
                     <button
                         type="button"
                         onClick={handleShowAll}
-                        className="btn-show-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 font-medium rounded-lg transition-all duration-200 hover:bg-emerald-200 disabled:opacity-60 disabled:cursor-not-allowed"
                         disabled={loading}
                     >
-                        <i data-lucide="list"></i>
+                        <i data-lucide="list" className="w-4 h-4"></i>
                         Mostrar Todos
                     </button>
                     <button
                         type="button"
                         onClick={handleClear}
-                        className="btn-clear"
+                        className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 font-medium rounded-lg transition-all duration-200 hover:bg-slate-200 disabled:opacity-60 disabled:cursor-not-allowed"
                         disabled={loading}
                     >
-                        <i data-lucide="x"></i>
+                        <i data-lucide="x" className="w-4 h-4"></i>
                         Limpiar
                     </button>
                 </div>

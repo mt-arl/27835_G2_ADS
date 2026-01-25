@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import ClientModal from '../components/ClientModal';
-import ClientSearch from '../components/ClientSearch';
-import ClientTable from '../components/ClientTable';
+import ClientModal from '../components/clientes/ClientModal';
+import ClientSearch from '../components/clientes/ClientSearch';
+import ClientTable from '../components/clientes/ClientTable';
 import { deactivateClient } from '../services/clientService';
 
 export default function ClientsPage() {
@@ -59,7 +59,7 @@ export default function ClientsPage() {
             `¿Está seguro que desea eliminar al cliente <strong>"${client.nombre}"</strong>?<br><br>Esta acción no se puede deshacer.`,
             'Sí, eliminar'
         );
-        
+
         if (!result.isConfirmed) return;
 
         try {
@@ -72,32 +72,39 @@ export default function ClientsPage() {
     };
 
     return (
-        <div className="page-container">
-            <div className="page-header">
-                <div className="page-title">
-                    <i data-lucide="users"></i>
+        <div className="p-6 md:p-8 max-w-7xl mx-auto">
+            {/* Page Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 flex items-center justify-center bg-linear-to-br from-amber-400 to-amber-600 rounded-2xl shadow-lg shadow-amber-500/30">
+                        <i data-lucide="users" className="w-7 h-7 text-white"></i>
+                    </div>
                     <div>
-                        <h1>Gestión de Clientes</h1>
-                        <p>Administra la base de clientes</p>
+                        <h1 className="text-2xl font-bold text-slate-800">Gestión de Clientes</h1>
+                        <p className="text-sm text-slate-500">Administra la base de clientes</p>
                     </div>
                 </div>
-                <button onClick={handleNewClient} className="btn-primary">
-                    <i data-lucide="user-plus"></i>
+                <button
+                    onClick={handleNewClient}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-amber-600 hover:to-amber-700 hover:shadow-lg hover:shadow-amber-500/30 hover:-translate-y-0.5"
+                >
+                    <i data-lucide="user-plus" className="w-5 h-5"></i>
                     Nuevo Cliente
                 </button>
             </div>
 
-            <div className="page-content">
+            {/* Page Content */}
+            <div className="space-y-6">
                 <ClientSearch onSearch={handleSearchResults} />
-                
+
                 {searchResults.length > 0 && (
-                    <ClientTable 
+                    <ClientTable
                         clients={searchResults}
                         onDelete={handleDelete}
                     />
                 )}
 
-                <ClientModal 
+                <ClientModal
                     isOpen={isModalOpen}
                     onClose={handleCloseModal}
                     onSuccess={handleFormSuccess}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import ProductModal from '../components/ProductModal';
-import ProductSearch from '../components/ProductSearch';
-import ProductTable from '../components/ProductTable';
+import ProductModal from '../components/productos/ProductModal';
+import ProductSearch from '../components/productos/ProductSearch';
+import ProductTable from '../components/productos/ProductTable';
 import { deactivateProduct } from '../services/productService';
 
 export default function ProductsPage() {
@@ -68,7 +68,7 @@ export default function ProductsPage() {
             `¿Está seguro que desea eliminar el producto <strong>"${product.name}"</strong>?<br><br>Esta acción no se puede deshacer.`,
             'Sí, eliminar'
         );
-        
+
         if (!result.isConfirmed) return;
 
         try {
@@ -81,33 +81,40 @@ export default function ProductsPage() {
     };
 
     return (
-        <div className="page-container">
-            <div className="page-header">
-                <div className="page-title">
-                    <i data-lucide="package"></i>
+        <div className="p-6 md:p-8 max-w-7xl mx-auto">
+            {/* Page Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 flex items-center justify-center bg-linear-to-br from-emerald-400 to-emerald-600 rounded-2xl shadow-lg shadow-emerald-500/30">
+                        <i data-lucide="package" className="w-7 h-7 text-white"></i>
+                    </div>
                     <div>
-                        <h1>Gestión de Productos</h1>
-                        <p>Administra el inventario de productos</p>
+                        <h1 className="text-2xl font-bold text-slate-800">Gestión de Productos</h1>
+                        <p className="text-sm text-slate-500">Administra el inventario de productos</p>
                     </div>
                 </div>
-                <button onClick={handleNewProduct} className="btn-primary">
-                    <i data-lucide="plus"></i>
+                <button
+                    onClick={handleNewProduct}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg hover:shadow-emerald-500/30 hover:-translate-y-0.5"
+                >
+                    <i data-lucide="plus" className="w-5 h-5"></i>
                     Nuevo Producto
                 </button>
             </div>
 
-            <div className="page-content">
+            {/* Page Content */}
+            <div className="space-y-6">
                 <ProductSearch onSearch={handleSearchResults} />
-                
+
                 {searchResults.length > 0 && (
-                    <ProductTable 
-                        products={searchResults} 
+                    <ProductTable
+                        products={searchResults}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
                     />
                 )}
 
-                <ProductModal 
+                <ProductModal
                     isOpen={isModalOpen}
                     onClose={handleCloseModal}
                     productToEdit={productToEdit}

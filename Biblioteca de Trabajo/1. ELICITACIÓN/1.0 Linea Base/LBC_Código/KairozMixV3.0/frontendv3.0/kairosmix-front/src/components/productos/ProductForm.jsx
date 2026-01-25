@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { createProduct, updateProduct } from '../services/productService.js';
-import './ProductForm.css';
 
 export default function ProductForm({ productToEdit, onSuccess }) {
     const [formData, setFormData] = useState({
@@ -29,7 +28,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
     };
 
     const validateForm = () => {
-        if (!formData.name || !formData.pricePerPound || !formData.wholesalePrice || 
+        if (!formData.name || !formData.pricePerPound || !formData.wholesalePrice ||
             !formData.retailPrice || !formData.originCountry || formData.currentStock === '') {
             setError('Todos los campos son requeridos');
             return false;
@@ -51,7 +50,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) return;
 
         setLoading(true);
@@ -69,7 +68,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
             };
 
             const isEditing = !!productToEdit;
-            
+
             if (isEditing) {
                 await updateProduct(productToEdit._id, productData);
             } else {
@@ -89,7 +88,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                     originCountry: '', currentStock: '', imageUrl: ''
                 });
             }
-            
+
             if (onSuccess) onSuccess();
         } catch (err) {
             setError('Error al guardar el producto: ' + err.message);
@@ -98,91 +97,104 @@ export default function ProductForm({ productToEdit, onSuccess }) {
         }
     };
 
+    const inputClasses = "w-full px-4 py-3 text-base text-slate-800 bg-slate-50 border-2 border-slate-200 rounded-xl outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100";
+    const labelClasses = "flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2";
+
     return (
-        <div className="product-form">
-            <div className="form-header">
-                <div className="form-icon">
-                    <i data-lucide="package"></i>
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-100">
+                <div className="w-14 h-14 flex items-center justify-center bg-linear-to-br from-emerald-400 to-emerald-600 rounded-xl shadow-lg shadow-emerald-500/30">
+                    <i data-lucide="package" className="w-7 h-7 text-white"></i>
                 </div>
                 <div>
-                    <h2>{productToEdit ? 'Editar Producto' : 'Nuevo Producto'}</h2>
-                    <p className="form-subtitle">Complete los datos del producto</p>
+                    <h2 className="text-xl font-bold text-slate-800">{productToEdit ? 'Editar Producto' : 'Nuevo Producto'}</h2>
+                    <p className="text-sm text-slate-500">Complete los datos del producto</p>
                 </div>
             </div>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>
-                        <i data-lucide="package" className="label-icon"></i>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Nombre del Producto */}
+                <div>
+                    <label className={labelClasses}>
+                        <i data-lucide="package" className="w-4 h-4 text-emerald-500"></i>
                         Nombre del Producto
                     </label>
-                    <input 
-                        type="text" 
-                        name="name" 
+                    <input
+                        type="text"
+                        name="name"
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Ej: Café Premium"
+                        className={inputClasses}
                         required
                     />
                 </div>
-                
-                <div className="form-row">
-                    <div className="form-group">
-                        <label>
-                            <i data-lucide="dollar-sign" className="label-icon"></i>
+
+                {/* Precios */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label className={labelClasses}>
+                            <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
                             Precio/Lb
                         </label>
-                        <input 
-                            type="number" 
-                            name="pricePerPound" 
+                        <input
+                            type="number"
+                            name="pricePerPound"
                             value={formData.pricePerPound}
                             onChange={handleChange}
                             placeholder="0.00"
                             step="0.01"
+                            className={inputClasses}
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>
-                            <i data-lucide="dollar-sign" className="label-icon"></i>
+                    <div>
+                        <label className={labelClasses}>
+                            <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
                             Mayorista
                         </label>
-                        <input 
-                            type="number" 
-                            name="wholesalePrice" 
+                        <input
+                            type="number"
+                            name="wholesalePrice"
                             value={formData.wholesalePrice}
                             onChange={handleChange}
                             placeholder="0.00"
                             step="0.01"
+                            className={inputClasses}
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>
-                            <i data-lucide="dollar-sign" className="label-icon"></i>
+                    <div>
+                        <label className={labelClasses}>
+                            <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
                             Minorista
                         </label>
-                        <input 
-                            type="number" 
-                            name="retailPrice" 
+                        <input
+                            type="number"
+                            name="retailPrice"
                             value={formData.retailPrice}
                             onChange={handleChange}
                             placeholder="0.00"
                             step="0.01"
+                            className={inputClasses}
                             required
                         />
                     </div>
                 </div>
-                
-                <div className="form-row">
-                    <div className="form-group">
-                        <label>
-                            <i data-lucide="globe" className="label-icon"></i>
+
+                {/* País y Stock */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label className={labelClasses}>
+                            <i data-lucide="globe" className="w-4 h-4 text-emerald-500"></i>
                             País de Origen
                         </label>
                         <select
                             name="originCountry"
                             value={formData.originCountry}
                             onChange={handleChange}
+                            className={inputClasses}
                             required
                         >
                             <option value="">Seleccionar país</option>
@@ -204,60 +216,74 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                             <option value="Otro">Otro</option>
                         </select>
                     </div>
-                    <div className="form-group">
-                        <label>
-                            <i data-lucide="bar-chart-3" className="label-icon"></i>
+                    <div>
+                        <label className={labelClasses}>
+                            <i data-lucide="bar-chart-3" className="w-4 h-4 text-emerald-500"></i>
                             Stock Inicial
                         </label>
-                        <input 
-                            type="number" 
-                            name="currentStock" 
+                        <input
+                            type="number"
+                            name="currentStock"
                             value={formData.currentStock}
                             onChange={handleChange}
                             placeholder="0"
+                            className={inputClasses}
                             required
                         />
                     </div>
                 </div>
-                
-                <div className="form-group">
-                    <label>
-                        <i data-lucide="image" className="label-icon"></i>
+
+                {/* URL de Imagen */}
+                <div>
+                    <label className={labelClasses}>
+                        <i data-lucide="image" className="w-4 h-4 text-emerald-500"></i>
                         URL de Imagen (opcional)
                     </label>
-                    <input 
-                        type="text" 
-                        name="imageUrl" 
+                    <input
+                        type="text"
+                        name="imageUrl"
                         value={formData.imageUrl}
                         onChange={handleChange}
                         placeholder="https://ejemplo.com/imagen.jpg"
+                        className={inputClasses}
                     />
                 </div>
-                
-                {error && <div className="error-message">{error}</div>}
-                
-                <div className="form-actions">
-                    <button type="submit" disabled={loading} className="btn-primary">
-                        <i data-lucide="save" className="btn-icon"></i>
+
+                {/* Error Message */}
+                {error && (
+                    <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+                        <i data-lucide="alert-circle" className="w-5 h-5 shrink-0"></i>
+                        {error}
+                    </div>
+                )}
+
+                {/* Actions */}
+                <div className="flex gap-4 pt-4">
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg hover:shadow-emerald-500/30 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                    >
+                        <i data-lucide="save" className="w-5 h-5"></i>
                         {loading ? 'Enviando...' : (productToEdit ? 'ACTUALIZAR' : 'CREAR')}
                     </button>
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         onClick={() => {
                             setFormData({
-                                name: '', 
-                                pricePerPound: '', 
-                                wholesalePrice: '', 
+                                name: '',
+                                pricePerPound: '',
+                                wholesalePrice: '',
                                 retailPrice: '',
-                                originCountry: '', 
-                                currentStock: '', 
+                                originCountry: '',
+                                currentStock: '',
                                 imageUrl: ''
                             });
                             setError('');
                         }}
-                        className="btn-secondary"
+                        className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl transition-all duration-200 hover:bg-slate-200"
                     >
-                        <i data-lucide="x" className="btn-icon"></i>
+                        <i data-lucide="x" className="w-5 h-5"></i>
                         Limpiar
                     </button>
                 </div>
