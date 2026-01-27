@@ -1,18 +1,10 @@
-import { useEffect } from 'react';
-
 export default function ClientTable({ clients, onDelete }) {
-    useEffect(() => {
-        if (window.lucide) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [clients]);
-
     if (!clients || clients.length === 0) {
         return (
             <div className="bg-white rounded-2xl shadow-xl p-8">
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                     <div className="w-20 h-20 flex items-center justify-center bg-slate-100 rounded-full mb-4">
-                        <i data-lucide="inbox" className="w-10 h-10 text-slate-400"></i>
+                        <i className="fa-solid fa-inbox text-4xl text-slate-400"></i>
                     </div>
                     <h3 className="text-lg font-semibold text-slate-700 mb-2">No hay clientes para mostrar</h3>
                     <p className="text-sm text-slate-500">Registre un nuevo cliente o realice una búsqueda diferente</p>
@@ -64,7 +56,7 @@ export default function ClientTable({ clients, onDelete }) {
                                             onClick={() => onDelete(client)}
                                             title="Eliminar cliente"
                                         >
-                                            <i data-lucide="trash-2" className="w-4.5 h-4.5"></i>
+                                            <i className="fa-solid fa-trash text-sm"></i>
                                         </button>
                                     </div>
                                 </td>

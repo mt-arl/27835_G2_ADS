@@ -1,12 +1,4 @@
-import { useEffect } from 'react';
-
 export default function ProductTable({ products, onEdit, onDelete }) {
-    useEffect(() => {
-        if (window.lucide) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [products]);
-
     const getStockBadgeClasses = (stock) => {
         const base = "px-3 py-1 text-sm font-bold rounded-full";
         if (stock >= 50) return `${base} bg-emerald-100 text-emerald-700`;
@@ -19,7 +11,7 @@ export default function ProductTable({ products, onEdit, onDelete }) {
             <div className="bg-white rounded-2xl shadow-xl p-8">
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                     <div className="w-20 h-20 flex items-center justify-center bg-slate-100 rounded-full mb-4">
-                        <i data-lucide="inbox" className="w-10 h-10 text-slate-400"></i>
+                        <i className="fa-solid fa-inbox text-4xl text-slate-400"></i>
                     </div>
                     <h3 className="text-lg font-semibold text-slate-700 mb-2">No hay productos para mostrar</h3>
                     <p className="text-sm text-slate-500">Cree un nuevo producto o realice una búsqueda diferente</p>
@@ -70,14 +62,14 @@ export default function ProductTable({ products, onEdit, onDelete }) {
                                             onClick={() => onEdit(product)}
                                             title="Editar producto"
                                         >
-                                            <i data-lucide="pencil" className="w-4.5 h-4.5"></i>
+                                            <i className="fa-solid fa-pen text-sm"></i>
                                         </button>
                                         <button
                                             className="w-9 h-9 flex items-center justify-center bg-red-50 text-red-500 rounded-lg transition-all duration-200 hover:bg-red-100 hover:text-red-600 hover:scale-110"
                                             onClick={() => onDelete(product)}
                                             title="Eliminar producto"
                                         >
-                                            <i data-lucide="trash-2" className="w-4.5 h-4.5"></i>
+                                            <i className="fa-solid fa-trash text-sm"></i>
                                         </button>
                                     </div>
                                 </td>

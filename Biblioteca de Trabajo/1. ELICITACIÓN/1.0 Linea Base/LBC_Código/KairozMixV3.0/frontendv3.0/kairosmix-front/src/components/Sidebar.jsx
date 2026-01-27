@@ -1,23 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Sidebar({ currentPage, onNavigate, onCollapse }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
-    useEffect(() => {
-        if (window.lucide) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [isCollapsed]);
-
-    useEffect(() => {
+    const handleCollapse = (collapsed) => {
+        setIsCollapsed(collapsed);
         if (onCollapse) {
-            onCollapse(isCollapsed);
+            onCollapse(collapsed);
         }
-    }, [isCollapsed, onCollapse]);
+    };
 
     const menuItems = [
-        { id: 'products', icon: 'package', label: 'Productos' },
-        { id: 'clients', icon: 'users', label: 'Clientes' }
+        { id: 'products', icon: 'fa-solid fa-box', label: 'Productos' },
+        { id: 'clients', icon: 'fa-solid fa-users', label: 'Clientes' }
     ];
 
     return (
@@ -26,19 +21,19 @@ export default function Sidebar({ currentPage, onNavigate, onCollapse }) {
             <div className="p-6 border-b border-white/10 flex items-center justify-between min-h-20">
                 <div
                     className="flex items-center gap-4 text-white font-bold text-lg cursor-pointer group"
-                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    onClick={() => handleCollapse(!isCollapsed)}
                     title={isCollapsed ? 'Expandir menú' : 'KairosMix'}
                 >
-                    <i data-lucide="store" className="w-8 h-8 text-emerald-500 transition-all duration-200 group-hover:text-emerald-600 group-hover:scale-110"></i>
+                    <i className="fa-solid fa-store text-2xl text-emerald-500 transition-all duration-200 group-hover:text-emerald-600 group-hover:scale-110"></i>
                     {!isCollapsed && <span className="whitespace-nowrap overflow-hidden">KairosMix</span>}
                 </div>
                 {!isCollapsed && (
                     <button
                         className="bg-emerald-500 border-none rounded-lg w-9 h-9 flex items-center justify-center cursor-pointer transition-all duration-200 shadow-md hover:bg-emerald-600 hover:scale-105 hover:shadow-lg"
-                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        onClick={() => handleCollapse(!isCollapsed)}
                         title="Contraer"
                     >
-                        <i data-lucide="chevron-left" className="w-5 h-5 text-white"></i>
+                        <i className="fa-solid fa-chevron-left text-white"></i>
                     </button>
                 )}
             </div>
@@ -54,7 +49,7 @@ export default function Sidebar({ currentPage, onNavigate, onCollapse }) {
                         onClick={() => onNavigate(item.id)}
                         title={isCollapsed ? item.label : ''}
                     >
-                        <i data-lucide={item.icon} className="w-5 h-5 shrink-0"></i>
+                        <i className={`${item.icon} text-lg shrink-0`}></i>
                         {!isCollapsed && <span>{item.label}</span>}
                     </button>
                 ))}
@@ -63,7 +58,7 @@ export default function Sidebar({ currentPage, onNavigate, onCollapse }) {
             {/* Footer */}
             <div className="p-6 border-t border-white/10">
                 <div className={`flex items-center gap-4 text-white ${isCollapsed ? 'justify-center' : ''}`}>
-                    <i data-lucide="user-circle" className="w-9 h-9 shrink-0"></i>
+                    <i className="fa-regular fa-circle-user text-3xl shrink-0"></i>
                     {!isCollapsed && (
                         <div className="flex flex-col gap-0.5">
                             <span className="text-sm font-semibold">Usuario</span>

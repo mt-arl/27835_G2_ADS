@@ -1,15 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getClients } from '../../services/clientService';
 
 export default function ClientSearch({ onSearch }) {
     const [query, setQuery] = useState('');
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        if (window.lucide) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [query]);
 
     const showAlert = (icon, title, text) => {
         window.Swal.fire({
@@ -74,7 +68,7 @@ export default function ClientSearch({ onSearch }) {
             {/* Header */}
             <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 flex items-center justify-center bg-linear-to-br from-amber-400 to-amber-600 rounded-xl shadow-lg shadow-amber-500/30">
-                    <i data-lucide="search" className="w-6 h-6 text-white"></i>
+                    <i className="fa-solid fa-magnifying-glass text-xl text-white"></i>
                 </div>
                 <div>
                     <h2 className="text-lg font-bold text-slate-800">Buscar Clientes</h2>
@@ -97,7 +91,7 @@ export default function ClientSearch({ onSearch }) {
                         className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-amber-600 hover:to-amber-700 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
                         disabled={loading}
                     >
-                        <i data-lucide="search" className="w-5 h-5"></i>
+                        <i className="fa-solid fa-magnifying-glass"></i>
                         {loading ? 'Buscando...' : 'Buscar'}
                     </button>
                 </div>
@@ -110,7 +104,7 @@ export default function ClientSearch({ onSearch }) {
                         className="flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 font-medium rounded-lg transition-all duration-200 hover:bg-emerald-200 disabled:opacity-60 disabled:cursor-not-allowed"
                         disabled={loading}
                     >
-                        <i data-lucide="list" className="w-4 h-4"></i>
+                        <i className="fa-solid fa-list"></i>
                         Mostrar Todos
                     </button>
                     <button
@@ -119,7 +113,7 @@ export default function ClientSearch({ onSearch }) {
                         className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 font-medium rounded-lg transition-all duration-200 hover:bg-slate-200 disabled:opacity-60 disabled:cursor-not-allowed"
                         disabled={loading}
                     >
-                        <i data-lucide="x" className="w-4 h-4"></i>
+                        <i className="fa-solid fa-xmark"></i>
                         Limpiar
                     </button>
                 </div>

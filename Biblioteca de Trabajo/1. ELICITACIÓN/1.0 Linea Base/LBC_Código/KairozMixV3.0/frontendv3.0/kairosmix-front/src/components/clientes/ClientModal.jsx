@@ -20,12 +20,6 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
         }
     }, [isOpen]);
 
-    useEffect(() => {
-        if (window.lucide && isOpen) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [isOpen, formData]);
-
     const resetForm = () => {
         setFormData(initialFormState);
         setErrors({});
@@ -130,14 +124,14 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 bg-linear-to-r from-amber-500 to-amber-600 border-b-[3px] border-amber-700">
                     <h2 className="flex items-center gap-3 text-white text-xl font-bold">
-                        <i data-lucide="user-plus" className="w-6 h-6"></i>
+                        <i className="fa-solid fa-user-plus text-xl"></i>
                         Registrar Cliente
                     </h2>
                     <button
                         className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-lg transition-all duration-200 hover:bg-white/30 hover:scale-110"
                         onClick={onClose}
                     >
-                        <i data-lucide="x" className="w-5 h-5 text-white"></i>
+                        <i className="fa-solid fa-xmark text-lg text-white"></i>
                     </button>
                 </div>
 
@@ -145,7 +139,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
                 <form onSubmit={handleSubmit} className="p-6 overflow-y-auto max-h-[calc(90vh-80px)] space-y-5">
                     <div>
                         <label htmlFor="cedula" className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                            <i data-lucide="credit-card" className="w-4 h-4 text-amber-500"></i>
+                            <i className="fa-solid fa-id-card text-amber-500"></i>
                             Cédula / RUC / Pasaporte *
                         </label>
                         <input
@@ -164,7 +158,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
 
                     <div>
                         <label htmlFor="nombre" className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                            <i data-lucide="user" className="w-4 h-4 text-amber-500"></i>
+                            <i className="fa-solid fa-user text-amber-500"></i>
                             Nombre completo *
                         </label>
                         <input
@@ -181,7 +175,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
 
                     <div>
                         <label htmlFor="correo" className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                            <i data-lucide="mail" className="w-4 h-4 text-amber-500"></i>
+                            <i className="fa-solid fa-envelope text-amber-500"></i>
                             Correo electrónico *
                         </label>
                         <input
@@ -198,7 +192,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
 
                     <div>
                         <label htmlFor="telefono" className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                            <i data-lucide="phone" className="w-4 h-4 text-amber-500"></i>
+                            <i className="fa-solid fa-phone text-amber-500"></i>
                             Teléfono *
                         </label>
                         <input
@@ -217,7 +211,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
 
                     <div>
                         <label htmlFor="direccion" className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                            <i data-lucide="map-pin" className="w-4 h-4 text-amber-500"></i>
+                            <i className="fa-solid fa-location-dot text-amber-500"></i>
                             Dirección *
                         </label>
                         <textarea
@@ -239,7 +233,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
                             onClick={onClose}
                             disabled={loading}
                         >
-                            <i data-lucide="x" className="w-4.5 h-4.5"></i>
+                            <i className="fa-solid fa-xmark"></i>
                             Cancelar
                         </button>
                         <button
@@ -247,7 +241,7 @@ export default function ClientModal({ isOpen, onClose, onSuccess }) {
                             className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-amber-500 text-white font-semibold rounded-lg transition-all duration-200 hover:bg-amber-600 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                             disabled={loading}
                         >
-                            <i data-lucide="check" className="w-4.5 h-4.5"></i>
+                            <i className="fa-solid fa-check"></i>
                             {loading ? 'Registrando...' : 'Registrar'}
                         </button>
                     </div>

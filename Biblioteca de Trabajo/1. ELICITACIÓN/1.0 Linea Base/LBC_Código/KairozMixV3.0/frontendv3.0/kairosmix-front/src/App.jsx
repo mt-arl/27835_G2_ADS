@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import ProductsPage from './pages/ProductsPage';
 import ClientsPage from './pages/ClientsPage';
@@ -8,12 +8,6 @@ import Login from './components/login/Login';
 function App() {
     const [currentPage, setCurrentPage] = useState('products');
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
-    useEffect(() => {
-        if (window.lucide) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [currentPage]);
 
     const handleNavigate = (page) => {
         setCurrentPage(page);

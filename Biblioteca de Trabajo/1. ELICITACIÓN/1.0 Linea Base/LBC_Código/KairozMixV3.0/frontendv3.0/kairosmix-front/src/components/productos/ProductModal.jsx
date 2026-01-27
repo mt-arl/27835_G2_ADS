@@ -32,12 +32,6 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
         }
     }, [productToEdit, isOpen]);
 
-    useEffect(() => {
-        if (window.lucide && isOpen) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [isOpen, formData]);
-
     const resetForm = () => {
         setFormData(initialFormState);
         setError('');
@@ -141,7 +135,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                 <div className="flex items-center justify-between px-6 py-4 bg-linear-to-r from-emerald-500 to-emerald-600 border-b-[3px] border-emerald-700">
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 flex items-center justify-center bg-white/20 rounded-xl">
-                            <i data-lucide="package" className="w-5 h-5 text-white"></i>
+                            <i className="fa-solid fa-box text-lg text-white"></i>
                         </div>
                         <div>
                             <h2 className="text-white text-xl font-bold">{productToEdit ? 'Editar Producto' : 'Nuevo Producto'}</h2>
@@ -153,7 +147,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                         onClick={handleCancel}
                         type="button"
                     >
-                        <i data-lucide="x" className="w-5 h-5 text-white"></i>
+                        <i className="fa-solid fa-xmark text-lg text-white"></i>
                     </button>
                 </div>
 
@@ -162,7 +156,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                     {/* Nombre */}
                     <div>
                         <label className={labelClasses}>
-                            <i data-lucide="package" className="w-4 h-4 text-emerald-500"></i>
+                            <i className="fa-solid fa-box text-emerald-500"></i>
                             Nombre del Producto
                         </label>
                         <input
@@ -180,7 +174,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label className={labelClasses}>
-                                <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
+                                <i className="fa-solid fa-dollar-sign text-emerald-500"></i>
                                 Precio/Lb
                             </label>
                             <input
@@ -196,7 +190,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                         </div>
                         <div>
                             <label className={labelClasses}>
-                                <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
+                                <i className="fa-solid fa-dollar-sign text-emerald-500"></i>
                                 Mayorista
                             </label>
                             <input
@@ -212,7 +206,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                         </div>
                         <div>
                             <label className={labelClasses}>
-                                <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
+                                <i className="fa-solid fa-dollar-sign text-emerald-500"></i>
                                 Minorista
                             </label>
                             <input
@@ -232,7 +226,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className={labelClasses}>
-                                <i data-lucide="globe" className="w-4 h-4 text-emerald-500"></i>
+                                <i className="fa-solid fa-globe text-emerald-500"></i>
                                 País de Origen
                             </label>
                             <select
@@ -264,7 +258,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                         </div>
                         <div>
                             <label className={labelClasses}>
-                                <i data-lucide="bar-chart-3" className="w-4 h-4 text-emerald-500"></i>
+                                <i className="fa-solid fa-chart-simple text-emerald-500"></i>
                                 Stock Actual
                             </label>
                             <input
@@ -282,7 +276,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                     {/* URL Imagen */}
                     <div>
                         <label className={labelClasses}>
-                            <i data-lucide="image" className="w-4 h-4 text-emerald-500"></i>
+                            <i className="fa-solid fa-image text-emerald-500"></i>
                             URL de Imagen (opcional)
                         </label>
                         <input
@@ -298,7 +292,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                     {/* Error */}
                     {error && (
                         <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
-                            <i data-lucide="alert-circle" className="w-5 h-5 shrink-0"></i>
+                            <i className="fa-solid fa-circle-exclamation text-lg shrink-0"></i>
                             {error}
                         </div>
                     )}
@@ -318,7 +312,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, onSuccess
                             className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-emerald-500 text-white font-semibold rounded-lg transition-all duration-200 hover:bg-emerald-600 hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                             disabled={loading}
                         >
-                            <i data-lucide="save" className="w-4.5 h-4.5"></i>
+                            <i className="fa-solid fa-floppy-disk"></i>
                             {loading ? 'Guardando...' : 'Guardar Cambios'}
                         </button>
                     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createProduct, updateProduct } from '../services/productService.js';
 
 export default function ProductForm({ productToEdit, onSuccess }) {
@@ -14,12 +14,6 @@ export default function ProductForm({ productToEdit, onSuccess }) {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-
-    useEffect(() => {
-        if (window.lucide) {
-            setTimeout(() => window.lucide.createIcons(), 0);
-        }
-    }, [formData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -105,7 +99,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
             {/* Header */}
             <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-100">
                 <div className="w-14 h-14 flex items-center justify-center bg-linear-to-br from-emerald-400 to-emerald-600 rounded-xl shadow-lg shadow-emerald-500/30">
-                    <i data-lucide="package" className="w-7 h-7 text-white"></i>
+                    <i className="fa-solid fa-box text-2xl text-white"></i>
                 </div>
                 <div>
                     <h2 className="text-xl font-bold text-slate-800">{productToEdit ? 'Editar Producto' : 'Nuevo Producto'}</h2>
@@ -117,7 +111,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                 {/* Nombre del Producto */}
                 <div>
                     <label className={labelClasses}>
-                        <i data-lucide="package" className="w-4 h-4 text-emerald-500"></i>
+                        <i className="fa-solid fa-box text-emerald-500"></i>
                         Nombre del Producto
                     </label>
                     <input
@@ -135,7 +129,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label className={labelClasses}>
-                            <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
+                            <i className="fa-solid fa-dollar-sign text-emerald-500"></i>
                             Precio/Lb
                         </label>
                         <input
@@ -151,7 +145,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                     </div>
                     <div>
                         <label className={labelClasses}>
-                            <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
+                            <i className="fa-solid fa-dollar-sign text-emerald-500"></i>
                             Mayorista
                         </label>
                         <input
@@ -167,7 +161,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                     </div>
                     <div>
                         <label className={labelClasses}>
-                            <i data-lucide="dollar-sign" className="w-4 h-4 text-emerald-500"></i>
+                            <i className="fa-solid fa-dollar-sign text-emerald-500"></i>
                             Minorista
                         </label>
                         <input
@@ -187,7 +181,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className={labelClasses}>
-                            <i data-lucide="globe" className="w-4 h-4 text-emerald-500"></i>
+                            <i className="fa-solid fa-globe text-emerald-500"></i>
                             País de Origen
                         </label>
                         <select
@@ -218,7 +212,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                     </div>
                     <div>
                         <label className={labelClasses}>
-                            <i data-lucide="bar-chart-3" className="w-4 h-4 text-emerald-500"></i>
+                            <i className="fa-solid fa-chart-simple text-emerald-500"></i>
                             Stock Inicial
                         </label>
                         <input
@@ -236,7 +230,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                 {/* URL de Imagen */}
                 <div>
                     <label className={labelClasses}>
-                        <i data-lucide="image" className="w-4 h-4 text-emerald-500"></i>
+                        <i className="fa-solid fa-image text-emerald-500"></i>
                         URL de Imagen (opcional)
                     </label>
                     <input
@@ -252,7 +246,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                 {/* Error Message */}
                 {error && (
                     <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
-                        <i data-lucide="alert-circle" className="w-5 h-5 shrink-0"></i>
+                        <i className="fa-solid fa-circle-exclamation text-lg shrink-0"></i>
                         {error}
                     </div>
                 )}
@@ -264,7 +258,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                         disabled={loading}
                         className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-xl transition-all duration-300 hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg hover:shadow-emerald-500/30 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                     >
-                        <i data-lucide="save" className="w-5 h-5"></i>
+                        <i className="fa-solid fa-floppy-disk"></i>
                         {loading ? 'Enviando...' : (productToEdit ? 'ACTUALIZAR' : 'CREAR')}
                     </button>
                     <button
@@ -283,7 +277,7 @@ export default function ProductForm({ productToEdit, onSuccess }) {
                         }}
                         className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl transition-all duration-200 hover:bg-slate-200"
                     >
-                        <i data-lucide="x" className="w-5 h-5"></i>
+                        <i className="fa-solid fa-xmark"></i>
                         Limpiar
                     </button>
                 </div>
