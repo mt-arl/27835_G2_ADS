@@ -3,7 +3,7 @@ import { loginClient } from '../../services/authService';
 
 function ClientLogin({ onLogin, onSwitchToRegister }) {
     const [formData, setFormData] = useState({
-        correo: '',
+        email: '',
         password: ''
     });
     const [errors, setErrors] = useState({});
@@ -27,10 +27,10 @@ function ClientLogin({ onLogin, onSwitchToRegister }) {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.correo.trim()) {
-            newErrors.correo = 'El correo es requerido';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo)) {
-            newErrors.correo = 'Ingresa un correo válido';
+        if (!formData.email.trim()) {
+            newErrors.email = 'El correo es requerido';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = 'Ingresa un correo válido';
         }
 
         if (!formData.password) {
@@ -108,7 +108,7 @@ function ClientLogin({ onLogin, onSwitchToRegister }) {
 
                     {/* Email Field */}
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="correo" className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                        <label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold text-slate-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500">
                                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                 <polyline points="22,6 12,13 2,6" />
@@ -117,27 +117,27 @@ function ClientLogin({ onLogin, onSwitchToRegister }) {
                         </label>
                         <input
                             type="email"
-                            id="correo"
-                            name="correo"
+                            id="email"
+                            name="email"
                             className={`w-full h-13 px-4 text-base text-slate-800 bg-slate-50 border-2 rounded-xl outline-none transition-all duration-200 placeholder:text-slate-400
-                                ${errors.correo
+                                ${errors.email
                                     ? 'border-red-300 bg-red-50/50 focus:border-red-400 focus:ring-4 focus:ring-red-100'
                                     : 'border-slate-200 hover:border-slate-300 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100'
                                 }`}
                             placeholder="tu@correo.com"
-                            value={formData.correo}
+                            value={formData.email}
                             onChange={handleChange}
                             disabled={isLoading}
                             autoComplete="email"
                         />
-                        {errors.correo && (
+                        {errors.email && (
                             <span className="text-xs font-medium text-red-500 flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="12" cy="12" r="10" />
                                     <line x1="12" y1="8" x2="12" y2="12" />
                                     <line x1="12" y1="16" x2="12.01" y2="16" />
                                 </svg>
-                                {errors.correo}
+                                {errors.email}
                             </span>
                         )}
                     </div>
