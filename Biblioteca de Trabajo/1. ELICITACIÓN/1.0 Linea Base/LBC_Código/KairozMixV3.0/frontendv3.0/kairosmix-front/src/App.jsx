@@ -1,12 +1,21 @@
 import { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import ProductsPage from './pages/ProductsPage';
 import ClientsPage from './pages/ClientsPage';
-import ClientLogin from './components/auth/ClientLogin';
+import Login from './components/auth/Login';
 import ClientRegister from './components/auth/ClientRegister';
 import CatalogPage from './components/catalogo/CatalogPage';
-import { isAuthenticated, logout } from './services/authService';
+import NotFoundPage from './components/NotFoundPage';
+import { isAuthenticated, logout, getCurrentUser } from './services/authService';
+
+const ADMIN_EMAIL = 'admin@kairozmix.com';
+
+// Helper para verificar si el usuario actual es admin
+const isAdminUser = () => {
+    const user = getCurrentUser();
+    return isAuthenticated() && user?.email === ADMIN_EMAIL;
+};
 
 // Componente para el área de cliente
 function ClientArea() {
@@ -49,10 +58,20 @@ function ClientArea() {
     );
 }
 
-// Componente para el área de administrador
+// Componente para el área de administrador (protegida - solo accesible si ya está logueado como admin)
 function AdminArea() {
     const [currentPage, setCurrentPage] = useState('products');
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+    // Si no es admin, mostrar página no encontrada (oculta existencia de /admin)
+    if (!isAdminUser()) {
+        return <NotFoundPage />;
+    }
+
+    const handleAdminLogout = () => {
+        logout();
+        window.location.href = '/';
+    };
 
     const handleNavigate = (page) => {
         setCurrentPage(page);
@@ -64,6 +83,7 @@ function AdminArea() {
                 currentPage={currentPage}
                 onNavigate={handleNavigate}
                 onCollapse={setIsSidebarCollapsed}
+                onLogout={handleAdminLogout}
             />
             <main className={`flex-1 min-h-screen transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
                 {currentPage === 'products' && <ProductsPage />}
@@ -78,8 +98,10 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Rutas de cliente */}
+                {/* Ruta principal - área de clientes */}
                 <Route path="/" element={<ClientArea />} />
+
+                {/* Ruta de registro */}
                 <Route path="/register" element={
                     <ClientRegister
                         onRegisterSuccess={() => window.location.href = '/'}
@@ -87,11 +109,11 @@ function App() {
                     />
                 } />
 
-                {/* Rutas de administrador */}
+                {/* Ruta de administrador - solo accesible si está logueado como admin */}
                 <Route path="/admin" element={<AdminArea />} />
 
-                {/* Redirigir rutas no encontradas */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+                {/* Cualquier otra ruta - página no encontrada */}
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>
     );

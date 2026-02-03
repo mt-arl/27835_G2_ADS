@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { loginClient } from '../../services/authService';
 
-function ClientLogin({ onLogin, onSwitchToRegister }) {
+function Login({ onLogin, onSwitchToRegister }) {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -243,4 +243,4 @@ function ClientLogin({ onLogin, onSwitchToRegister }) {
     );
 }
 
-export default ClientLogin;
+export default Login;

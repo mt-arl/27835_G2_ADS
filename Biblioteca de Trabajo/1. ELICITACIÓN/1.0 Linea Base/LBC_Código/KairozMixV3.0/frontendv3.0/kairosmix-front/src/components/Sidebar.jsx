@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Sidebar({ currentPage, onNavigate, onCollapse }) {
+export default function Sidebar({ currentPage, onNavigate, onCollapse, onLogout }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const handleCollapse = (collapsed) => {
@@ -57,15 +57,26 @@ export default function Sidebar({ currentPage, onNavigate, onCollapse }) {
 
             {/* Footer */}
             <div className="p-6 border-t border-white/10">
-                <div className={`flex items-center gap-4 text-white ${isCollapsed ? 'justify-center' : ''}`}>
+                <div className={`flex items-center gap-4 text-white mb-4 ${isCollapsed ? 'justify-center' : ''}`}>
                     <i className="fa-regular fa-circle-user text-3xl shrink-0"></i>
                     {!isCollapsed && (
-                        <div className="flex flex-col gap-0.5">
-                            <span className="text-sm font-semibold">Usuario</span>
+                        <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+                            <span className="text-sm font-semibold truncate">admin@kairozmix.com</span>
                             <span className="text-xs text-white/60">Administrador</span>
                         </div>
                     )}
                 </div>
+                {onLogout && (
+                    <button
+                        onClick={onLogout}
+                        className={`flex items-center gap-3 w-full py-2.5 px-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-medium cursor-pointer transition-all duration-200 hover:bg-red-500/20 hover:text-red-300 hover:border-red-400/50
+                            ${isCollapsed ? 'justify-center px-3' : ''}`}
+                        title="Cerrar sesión"
+                    >
+                        <i className="fa-solid fa-sign-out-alt"></i>
+                        {!isCollapsed && <span>Cerrar sesión</span>}
+                    </button>
+                )}
             </div>
         </aside>
     );
