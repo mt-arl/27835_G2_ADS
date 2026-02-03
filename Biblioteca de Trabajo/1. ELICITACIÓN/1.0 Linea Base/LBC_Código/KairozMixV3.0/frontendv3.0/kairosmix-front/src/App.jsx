@@ -21,7 +21,7 @@ const isAdminUser = () => {
 function ClientArea() {
     const [view, setView] = useState(isAuthenticated() ? 'catalog' : 'login');
 
-    const handleClientLogin = () => {
+    const handleLogin = () => {
         setView('catalog');
     };
 
@@ -51,8 +51,8 @@ function ClientArea() {
 
     // Por defecto mostrar login
     return (
-        <ClientLogin
-            onLogin={handleClientLogin}
+        <Login
+            onLogin={handleLogin}
             onSwitchToRegister={handleSwitchToRegister}
         />
     );

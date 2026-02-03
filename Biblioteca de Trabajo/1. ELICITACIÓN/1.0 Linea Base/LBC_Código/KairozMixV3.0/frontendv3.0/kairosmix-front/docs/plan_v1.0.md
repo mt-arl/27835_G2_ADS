@@ -30,7 +30,7 @@ Servicio de autenticación para clientes:
 
 ### Componentes de Autenticación
 
-#### [NEW] ClientLogin.jsx
+#### [NEW] Login.jsx
 
 Login para clientes con:
 - Campos: correo y password

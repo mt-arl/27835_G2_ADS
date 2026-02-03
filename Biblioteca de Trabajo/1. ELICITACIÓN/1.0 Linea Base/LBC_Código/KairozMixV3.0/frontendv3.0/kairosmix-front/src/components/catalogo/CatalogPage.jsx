@@ -199,21 +199,22 @@ function CatalogPage({ onLogout }) {
                             <p className="text-slate-500">Intenta con otros términos de búsqueda</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <div className="flex flex-wrap gap-6">
                             {filteredProducts.map(product => (
-                                <ProductCard
-                                    key={product._id}
-                                    product={product}
-                                    onAddToMix={handleAddToMix}
-                                    isInMix={mixProducts.some(p => p._id === product._id)}
-                                />
+                                <div key={product._id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] min-w-[280px]">
+                                    <ProductCard
+                                        product={product}
+                                        onAddToMix={handleAddToMix}
+                                        isInMix={mixProducts.some(p => p._id === product._id)}
+                                    />
+                                </div>
                             ))}
                         </div>
                     )}
                 </main>
 
                 {/* Mix Panel */}
-                <aside className={`fixed lg:sticky top-16 right-0 h-[calc(100vh-4rem)] w-80 bg-white border-l border-slate-200 shadow-xl lg:shadow-none transition-transform duration-300 z-40 ${showMixPanel ? 'translate-x-0' : 'translate-x-full lg:hidden'}`}>
+                <aside className={`fixed top-16 right-0 h-[calc(100vh-4rem)] w-80 bg-white border-l border-slate-200 shadow-xl transition-transform duration-300 z-40 ${showMixPanel ? 'translate-x-0' : 'translate-x-full'}`}>
                     <div className="flex flex-col h-full">
                         {/* Panel Header */}
                         <div className="p-4 border-b border-slate-100">
