@@ -71,7 +71,7 @@ function CatalogPage({ onLogout }) {
         product.category?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const mixTotal = mixProducts.reduce((sum, p) => sum + (p.price || 0), 0);
+    const mixTotal = mixProducts.reduce((sum, p) => sum + (p.pricePerPound || 0), 0);
 
     return (
         <div className="min-h-screen bg-linear-to-br from-slate-50 to-emerald-50">
@@ -253,17 +253,13 @@ function CatalogPage({ onLogout }) {
                                     {mixProducts.map(product => (
                                         <div key={product._id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
                                             <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shrink-0">
-                                                {product.imagen ? (
-                                                    <img src={product.imagen} alt={product.name} className="w-full h-full object-cover rounded-lg" />
-                                                ) : (
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
-                                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                                                    </svg>
-                                                )}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
+                                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                                </svg>
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-sm font-semibold text-slate-700 truncate">{product.name}</p>
-                                                <p className="text-sm text-emerald-600 font-medium">${product.price?.toFixed(2)}</p>
+                                                <p className="text-sm text-emerald-600 font-medium">${(product.pricePerPound || 0).toFixed(2)}/lb</p>
                                             </div>
                                             <button
                                                 onClick={() => handleAddToMix(product)}
@@ -302,16 +298,18 @@ function CatalogPage({ onLogout }) {
                         )}
                     </div>
                 </aside>
-            </div>
+            </div >
 
             {/* Overlay for mobile */}
-            {showMixPanel && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-                    onClick={() => setShowMixPanel(false)}
-                />
-            )}
-        </div>
+            {
+                showMixPanel && (
+                    <div
+                        className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+                        onClick={() => setShowMixPanel(false)}
+                    />
+                )
+            }
+        </div >
     );
 }
 
