@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
 import { getProducts } from '../../services/productService';
+import { createMix } from '../../services/mixService';
 import { logout, getCurrentUser } from '../../services/authService';
 import ProductCard from './ProductCard';
+import SaveMixModal from './SaveMixModal';
+import MixPanel from './MixPanel';
 
 function CatalogPage({ onLogout }) {
     const [products, setProducts] = useState([]);
-    const [mixProducts, setMixProducts] = useState([]);
+    const [mixProducts, setMixProducts] = useState([]); // Cada item incluye quantityLbs
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [showMixPanel, setShowMixPanel] = useState(false);
+    const [showSaveModal, setShowSaveModal] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const user = getCurrentUser();
 
     useEffect(() => {
@@ -38,8 +43,18 @@ function CatalogPage({ onLogout }) {
         if (isInMix) {
             setMixProducts(prev => prev.filter(p => p._id !== product._id));
         } else {
-            setMixProducts(prev => [...prev, product]);
+            // Agregar con cantidad default de 1 lb
+            setMixProducts(prev => [...prev, { ...product, quantityLbs: 1 }]);
+            setShowMixPanel(true);
         }
+    };
+
+    const handleQuantityChange = (productId, newQuantity) => {
+        // Validar mínimo 0.1 lbs
+        const quantity = Math.max(0.1, parseFloat(newQuantity) || 0.1);
+        setMixProducts(prev =>
+            prev.map(p => p._id === productId ? { ...p, quantityLbs: quantity } : p)
+        );
     };
 
     const handleLogout = () => {
@@ -66,12 +81,52 @@ function CatalogPage({ onLogout }) {
         });
     };
 
+    const handleConfirmMix = () => {
+        setShowSaveModal(true);
+    };
+
+    const handleSaveMix = async (mixName) => {
+        setIsSaving(true);
+
+        try {
+            const ingredients = mixProducts.map(p => ({
+                productId: p._id,
+                quantityLbs: p.quantityLbs
+            }));
+
+            await createMix(mixName, ingredients);
+
+            window.Swal?.fire({
+                icon: 'success',
+                title: '¡Mezcla guardada!',
+                text: `Tu mezcla "${mixName}" ha sido guardada exitosamente`,
+                confirmButtonColor: '#10b981'
+            });
+
+            setShowSaveModal(false);
+            setMixProducts([]);
+            setShowMixPanel(false);
+        } catch (error) {
+            console.error('Error al guardar mezcla:', error);
+            window.Swal?.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'No se pudo guardar la mezcla',
+                confirmButtonColor: '#10b981'
+            });
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
     const filteredProducts = products.filter(product =>
         product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.category?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const mixTotal = mixProducts.reduce((sum, p) => sum + (p.pricePerPound || 0), 0);
+    // Calcular totales con cantidades
+    const mixTotal = mixProducts.reduce((sum, p) => sum + ((p.pricePerPound || 0) * p.quantityLbs), 0);
+    const mixWeight = mixProducts.reduce((sum, p) => sum + p.quantityLbs, 0);
 
     return (
         <div className="min-h-screen bg-linear-to-br from-slate-50 to-emerald-50">
@@ -105,19 +160,19 @@ function CatalogPage({ onLogout }) {
                                     placeholder="Buscar productos..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full h-10 pl-10 pr-4 text-sm bg-slate-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
+                                    className="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 border-2 border-transparent rounded-xl outline-none transition-all focus:bg-white focus:border-emerald-500"
                                 />
                             </div>
                         </div>
 
-                        {/* Right Side */}
+                        {/* Right Actions */}
                         <div className="flex items-center gap-3">
                             {/* Mix Button */}
                             <button
                                 onClick={() => setShowMixPanel(!showMixPanel)}
-                                className="relative flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 font-semibold rounded-xl hover:bg-emerald-100 transition-colors"
+                                className="relative flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 font-semibold rounded-xl hover:bg-emerald-200 transition-colors"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="9" cy="21" r="1" />
                                     <circle cx="20" cy="21" r="1" />
                                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -133,15 +188,15 @@ function CatalogPage({ onLogout }) {
                             {/* User Menu */}
                             <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
                                 <div className="hidden sm:block text-right">
-                                    <p className="text-sm font-semibold text-slate-700">{user?.nombre || 'Cliente'}</p>
-                                    <p className="text-xs text-slate-500">{user?.correo}</p>
+                                    <p className="text-sm font-semibold text-slate-700">{user?.nombre || 'Usuario'}</p>
+                                    <p className="text-xs text-slate-500">{user?.correo || user?.email}</p>
                                 </div>
                                 <button
                                     onClick={handleLogout}
-                                    className="w-9 h-9 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl hover:bg-red-50 hover:text-red-600 transition-colors"
+                                    className="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                                     title="Cerrar sesión"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                                         <polyline points="16 17 21 12 16 7" />
                                         <line x1="21" y1="12" x2="9" y2="12" />
@@ -152,23 +207,6 @@ function CatalogPage({ onLogout }) {
                     </div>
                 </div>
             </header>
-
-            {/* Mobile Search */}
-            <div className="md:hidden px-4 py-3 bg-white border-b border-slate-100">
-                <div className="relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    <input
-                        type="text"
-                        placeholder="Buscar productos..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-10 pl-10 pr-4 text-sm bg-slate-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    />
-                </div>
-            </div>
 
             <div className="flex">
                 {/* Main Content */}
@@ -214,103 +252,39 @@ function CatalogPage({ onLogout }) {
                 </main>
 
                 {/* Mix Panel */}
-                <aside className={`fixed top-16 right-0 h-[calc(100vh-4rem)] w-80 bg-white border-l border-slate-200 shadow-xl transition-transform duration-300 z-40 ${showMixPanel ? 'translate-x-0' : 'translate-x-full'}`}>
-                    <div className="flex flex-col h-full">
-                        {/* Panel Header */}
-                        <div className="p-4 border-b border-slate-100">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-bold text-slate-800">Mi Mezcla</h2>
-                                <button
-                                    onClick={() => setShowMixPanel(false)}
-                                    className="lg:hidden w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="18" y1="6" x2="6" y2="18" />
-                                        <line x1="6" y1="6" x2="18" y2="18" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <p className="text-sm text-slate-500 mt-1">
-                                {mixProducts.length} producto{mixProducts.length !== 1 ? 's' : ''} seleccionado{mixProducts.length !== 1 ? 's' : ''}
-                            </p>
-                        </div>
-
-                        {/* Mix Items */}
-                        <div className="flex-1 overflow-y-auto p-4">
-                            {mixProducts.length === 0 ? (
-                                <div className="flex flex-col items-center justify-center h-full text-center py-8">
-                                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400">
-                                            <circle cx="9" cy="21" r="1" />
-                                            <circle cx="20" cy="21" r="1" />
-                                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                                        </svg>
-                                    </div>
-                                    <h3 className="text-sm font-semibold text-slate-700 mb-1">Tu mezcla está vacía</h3>
-                                    <p className="text-xs text-slate-500">Agrega productos del catálogo</p>
-                                </div>
-                            ) : (
-                                <div className="space-y-3">
-                                    {mixProducts.map(product => (
-                                        <div key={product._id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
-                                            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
-                                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                                                </svg>
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <p className="text-sm font-semibold text-slate-700 truncate">{product.name}</p>
-                                                <p className="text-sm text-emerald-600 font-medium">${(product.pricePerPound || 0).toFixed(2)}/lb</p>
-                                            </div>
-                                            <button
-                                                onClick={() => handleAddToMix(product)}
-                                                className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Panel Footer */}
-                        {mixProducts.length > 0 && (
-                            <div className="p-4 border-t border-slate-100 bg-slate-50">
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-sm font-medium text-slate-600">Total estimado</span>
-                                    <span className="text-xl font-bold text-emerald-600">${mixTotal.toFixed(2)}</span>
-                                </div>
-                                <div className="flex gap-2">
-                                    <button
-                                        onClick={handleClearMix}
-                                        className="flex-1 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-                                    >
-                                        Limpiar
-                                    </button>
-                                    <button className="flex-1 py-2.5 text-sm font-semibold text-white bg-linear-to-r from-emerald-500 to-emerald-600 rounded-xl hover:from-emerald-600 hover:to-emerald-700 transition-colors">
-                                        Confirmar
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </aside>
-            </div >
+                <MixPanel
+                    isOpen={showMixPanel}
+                    onClose={() => setShowMixPanel(false)}
+                    mixProducts={mixProducts}
+                    onRemoveProduct={handleAddToMix}
+                    onQuantityChange={handleQuantityChange}
+                    mixTotal={mixTotal}
+                    mixWeight={mixWeight}
+                    onClear={handleClearMix}
+                    onSave={handleConfirmMix}
+                />
+            </div>
 
             {/* Overlay for mobile */}
-            {
-                showMixPanel && (
-                    <div
-                        className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-                        onClick={() => setShowMixPanel(false)}
-                    />
-                )
-            }
-        </div >
+            {showMixPanel && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+                    onClick={() => setShowMixPanel(false)}
+                />
+            )}
+
+            {/* Save Mix Modal */}
+            <SaveMixModal
+                isOpen={showSaveModal}
+                onClose={() => setShowSaveModal(false)}
+                mixProducts={mixProducts}
+                totalPrice={mixTotal}
+                totalWeight={mixWeight}
+                onSave={handleSaveMix}
+                isSaving={isSaving}
+            />
+
+        </div>
     );
 }
 

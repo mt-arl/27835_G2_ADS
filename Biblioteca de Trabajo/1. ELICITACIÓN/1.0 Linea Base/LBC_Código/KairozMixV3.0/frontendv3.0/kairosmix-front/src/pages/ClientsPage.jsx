@@ -1,8 +1,17 @@
 import { useState } from 'react';
+import AdminSearch from '../components/admin/AdminSearch';
+import AdminTable from '../components/admin/AdminTable';
 import ClientModal from '../components/clientes/ClientModal';
-import ClientSearch from '../components/clientes/ClientSearch';
-import ClientTable from '../components/clientes/ClientTable';
-import { deactivateClient } from '../services/clientService';
+import { getClients, deactivateClient } from '../services/clientService';
+
+// Configuración de columnas para la tabla de clientes
+const clientColumns = [
+    { key: 'cedula', label: 'Identificación', type: 'code' },
+    { key: 'nombre', label: 'Nombre', className: 'font-semibold' },
+    { key: 'correo', label: 'Correo', type: 'email' },
+    { key: 'telefono', label: 'Teléfono' },
+    { key: 'direccion', label: 'Dirección', className: 'max-w-48 truncate' }
+];
 
 export default function ClientsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,12 +98,23 @@ export default function ClientsPage() {
 
             {/* Page Content */}
             <div className="space-y-6">
-                <ClientSearch onSearch={handleSearchResults} />
+                <AdminSearch
+                    color="amber"
+                    title="Buscar Clientes"
+                    subtitle="Busque por nombre, identificación, correo o teléfono"
+                    placeholder="Ingrese nombre, cédula, correo o teléfono..."
+                    onSearch={handleSearchResults}
+                    getAllService={getClients}
+                />
 
                 {searchResults.length > 0 && (
-                    <ClientTable
-                        clients={searchResults}
+                    <AdminTable
+                        data={searchResults}
+                        columns={clientColumns}
                         onDelete={handleDelete}
+                        color="amber"
+                        emptyMessage="No hay clientes para mostrar"
+                        emptySubMessage="Registre un nuevo cliente o realice una búsqueda diferente"
                     />
                 )}
 

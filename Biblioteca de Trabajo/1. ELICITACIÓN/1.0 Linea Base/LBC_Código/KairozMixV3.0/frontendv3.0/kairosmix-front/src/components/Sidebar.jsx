@@ -44,7 +44,7 @@ export default function Sidebar({ currentPage, onNavigate, onCollapse, onLogout 
                     <button
                         key={item.id}
                         className={`flex items-center gap-4 py-3 px-4 mb-1 bg-transparent border-none rounded-lg text-white/70 text-sm font-medium cursor-pointer transition-all duration-200 w-full text-left hover:bg-white/10 hover:text-white
-                            ${currentPage === item.id ? 'bg-emerald-500 text-white' : ''}
+                            ${currentPage === item.id ? 'bg-white/15 text-white border-l-4 border-emerald-400' : ''}
                             ${isCollapsed ? 'justify-center px-3' : ''}`}
                         onClick={() => onNavigate(item.id)}
                         title={isCollapsed ? item.label : ''}
