@@ -12,7 +12,8 @@ export default function Sidebar({ currentPage, onNavigate, onCollapse, onLogout 
 
     const menuItems = [
         { id: 'products', icon: 'fa-solid fa-box', label: 'Productos' },
-        { id: 'clients', icon: 'fa-solid fa-users', label: 'Clientes' }
+        { id: 'clients', icon: 'fa-solid fa-users', label: 'Clientes' },
+        { id: 'orders', icon: 'fa-solid fa-clipboard-list', label: 'Pedidos' }
     ];
 
     return (

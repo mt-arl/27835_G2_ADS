@@ -15,18 +15,20 @@ export interface IOrder extends Document {
 }
 
 const OrderSchema: Schema = new Schema({
-    client: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    client: { type: Schema.Types.ObjectId, ref: 'Client', required: true },  // Referencia a Client, no User
     items: [{
         product: { type: Schema.Types.ObjectId, ref: 'Product' },   // Ya no es required true
         customMix: { type: Schema.Types.ObjectId, ref: 'CustomMix' }, // Referencia a la mezcla
-        quantity: { type: Number, required: true, min: 1 },
+        quantity: { type: Number, required: true, min: 0.1 },  // Permite cantidades en libras (ej: 0.5 lbs)
         priceAtPurchase: { type: Number, required: true }
     }],
     total: { type: Number, required: true },
-    status: { type: String, 
+    status: {
+        type: String,
         // Asegúrate que el enum de Mongoose coincida con TypeScript
         enum: ['pendiente', 'pagado', 'en proceso', 'despachado', 'completado', 'cancelado'],
-        default: 'pendiente' }
+        default: 'pendiente'
+    }
 }, { timestamps: true });
 
 export default mongoose.model<IOrder>('Order', OrderSchema);

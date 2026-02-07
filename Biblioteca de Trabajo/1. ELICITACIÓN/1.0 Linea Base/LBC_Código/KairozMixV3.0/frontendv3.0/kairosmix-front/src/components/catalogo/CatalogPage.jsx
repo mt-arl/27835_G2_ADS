@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getProducts } from '../../services/productService';
 import { createMix } from '../../services/mixService';
+import { createOrder } from '../../services/orderService';
 import { logout, getCurrentUser } from '../../services/authService';
 import ProductCard from './ProductCard';
 import SaveMixModal from './SaveMixModal';
 import MixPanel from './MixPanel';
+import CreateOrderModal from './CreateOrderModal';
 
 function CatalogPage({ onLogout }) {
     const [products, setProducts] = useState([]);
@@ -14,6 +16,11 @@ function CatalogPage({ onLogout }) {
     const [showMixPanel, setShowMixPanel] = useState(false);
     const [showSaveModal, setShowSaveModal] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [switchToSavedTab, setSwitchToSavedTab] = useState(false); // Para cambiar a pestaña Guardadas
+    // Estados para pedidos
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [orderProducts, setOrderProducts] = useState([]);
+    const [isCreatingOrder, setIsCreatingOrder] = useState(false);
     const user = getCurrentUser();
 
     useEffect(() => {
@@ -105,7 +112,8 @@ function CatalogPage({ onLogout }) {
 
             setShowSaveModal(false);
             setMixProducts([]);
-            setShowMixPanel(false);
+            // Cambiar a pestaña Guardadas para mostrar la nueva mezcla
+            setSwitchToSavedTab(prev => !prev); // Toggle para disparar el efecto
         } catch (error) {
             console.error('Error al guardar mezcla:', error);
             window.Swal?.fire({
@@ -116,6 +124,52 @@ function CatalogPage({ onLogout }) {
             });
         } finally {
             setIsSaving(false);
+        }
+    };
+
+    // Handler para abrir modal de creación de pedido desde una mezcla guardada
+    const handleCreateOrderFromMix = (productsFromMix) => {
+        setOrderProducts(productsFromMix);
+        setShowOrderModal(true);
+    };
+
+    // Handler para cargar productos de una mezcla guardada en el mixer
+    const handleLoadMixProducts = (productsFromMix) => {
+        setMixProducts(productsFromMix);
+        setShowMixPanel(true);
+    };
+
+    // Handler para confirmar y crear el pedido
+    const handleConfirmOrder = async (orderItems) => {
+        setIsCreatingOrder(true);
+        try {
+            const items = orderItems.map(item => ({
+                productId: item._id,
+                quantity: item.quantityLbs
+            }));
+
+            console.log('Items enviados al backend:', items);
+            await createOrder(items);
+
+            window.Swal?.fire({
+                icon: 'success',
+                title: '¡Pedido creado!',
+                text: 'Tu pedido ha sido registrado exitosamente',
+                confirmButtonColor: '#10b981'
+            });
+
+            setShowOrderModal(false);
+            setOrderProducts([]);
+        } catch (error) {
+            console.error('Error al crear pedido:', error);
+            window.Swal?.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'No se pudo crear el pedido',
+                confirmButtonColor: '#10b981'
+            });
+        } finally {
+            setIsCreatingOrder(false);
         }
     };
 
@@ -262,6 +316,9 @@ function CatalogPage({ onLogout }) {
                     mixWeight={mixWeight}
                     onClear={handleClearMix}
                     onSave={handleConfirmMix}
+                    onCreateOrder={handleCreateOrderFromMix}
+                    onLoadMixProducts={handleLoadMixProducts}
+                    switchToSavedTab={switchToSavedTab}
                 />
             </div>
 
@@ -282,6 +339,16 @@ function CatalogPage({ onLogout }) {
                 totalWeight={mixWeight}
                 onSave={handleSaveMix}
                 isSaving={isSaving}
+            />
+
+            {/* Create Order Modal */}
+            <CreateOrderModal
+                isOpen={showOrderModal}
+                onClose={() => setShowOrderModal(false)}
+                initialProducts={orderProducts}
+                allProducts={products}
+                onConfirm={handleConfirmOrder}
+                isLoading={isCreatingOrder}
             />
 
         </div>

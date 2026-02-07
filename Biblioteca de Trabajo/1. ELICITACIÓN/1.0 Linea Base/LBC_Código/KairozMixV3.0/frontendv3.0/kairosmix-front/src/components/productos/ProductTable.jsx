@@ -52,7 +52,7 @@ export default function ProductTable({ products, onEdit, onDelete }) {
                                 <td className="px-4 py-4 text-sm text-slate-600 text-right font-mono">${product.retailPrice.toFixed(2)}</td>
                                 <td className="px-4 py-4 text-center">
                                     <span className={getStockBadgeClasses(product.currentStock)}>
-                                        {product.currentStock}
+                                        {product.currentStock.toFixed(2)}
                                     </span>
                                 </td>
                                 <td className="px-4 py-4">

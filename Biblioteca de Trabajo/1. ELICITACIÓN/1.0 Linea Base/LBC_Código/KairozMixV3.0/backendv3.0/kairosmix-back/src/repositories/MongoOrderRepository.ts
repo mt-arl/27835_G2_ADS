@@ -7,6 +7,7 @@ export interface IOrderRepository {
     findAll(): Promise<IOrder[]>;
     // Nuevos métodos requeridos por el controlador:
     findById(id: string): Promise<IOrder | null>;
+    findByClient(clientId: string): Promise<IOrder[]>;
     updateStatus(id: string, status: string): Promise<IOrder | null>;
 }
 
@@ -22,9 +23,10 @@ export class MongoOrderRepository implements IOrderRepository {
     async findAll(): Promise<IOrder[]> {
         await this.db.connect();
         return await Order.find()
-            .populate('client', 'name email')
-            .populate('items.product', 'name price') // Para ver info de productos
-            .sort({ createdAt: -1 }); // Ordenar por más recientes
+            .populate('client', 'nombre correo')  // campos de Client: nombre, correo
+            .populate('items.product', 'name price')
+            .populate('items.customMix', 'name totalPrice')
+            .sort({ createdAt: -1 });
     }
 
     // Implementación para buscar por ID
@@ -32,8 +34,18 @@ export class MongoOrderRepository implements IOrderRepository {
         await this.db.connect();
         return await Order.findById(id)
             // Es VITAL hacer populate aquí para que la lógica de cancelar sepa qué productos devolver
-            .populate('items.product') 
+            .populate('items.product')
             .populate('items.customMix');
+    }
+
+    // Implementación para buscar pedidos de un cliente específico
+    async findByClient(clientId: string): Promise<IOrder[]> {
+        await this.db.connect();
+        return await Order.find({ client: clientId })
+            .populate('client', 'nombre correo')  // campos de Client: nombre, correo
+            .populate('items.product', 'name price')
+            .populate('items.customMix', 'name totalPrice')
+            .sort({ createdAt: -1 });
     }
 
     // Implementación para actualizar estado

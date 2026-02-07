@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import ProductsPage from './pages/ProductsPage';
 import ClientsPage from './pages/ClientsPage';
+import OrdersPage from './pages/OrdersPage';
 import Login from './components/auth/Login';
 import ClientRegister from './components/auth/ClientRegister';
 import CatalogPage from './components/catalogo/CatalogPage';
@@ -88,6 +89,7 @@ function AdminArea() {
             <main className={`flex-1 min-h-screen transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
                 {currentPage === 'products' && <ProductsPage />}
                 {currentPage === 'clients' && <ClientsPage />}
+                {currentPage === 'orders' && <OrdersPage />}
             </main>
         </div>
     );

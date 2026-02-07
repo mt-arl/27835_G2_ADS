@@ -68,9 +68,11 @@ export default function AdminTable({
 
             case 'badge':
                 const badgeColor = column.badgeColor?.(value) || 'bg-slate-100 text-slate-700';
+                // Formatear números con 2 decimales
+                const displayValue = typeof value === 'number' ? value.toFixed(2) : value;
                 return (
                     <span className={`px-3 py-1 text-sm font-bold rounded-full ${badgeColor}`}>
-                        {value}
+                        {displayValue}
                     </span>
                 );
 
