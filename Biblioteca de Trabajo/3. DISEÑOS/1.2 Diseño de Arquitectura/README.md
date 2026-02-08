@@ -1,8 +1,8 @@
 # 3.1.2 Diseño de Arquitectura
 
 ## Documentos Presentes
-- `Informe de Arquitectura del Sistema KairosMix_V1.pdf` - Primera versión de la arquitectura
-- `Informe de Arquitectura del Sistema KairosMix1 v.2.pdf` - Segunda versión de la arquitectura
+- `ARQ_V1.pdf` - Primera versión de la arquitectura
+- `ARQV2.pdf` - Segunda versión de la arquitectura
 
 ## Versiones y Variantes
 
