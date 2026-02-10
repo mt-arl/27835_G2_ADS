@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "outDir": "./dist",
+    "rootDir": "./", 
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    
+    // ESTO ES LO IMPORTANTE:
+    "types": ["node", "jest"]
+  },
+  // Aseguramos que TS lea tanto el código fuente como los tests
+  "include": ["src/**/*", "test/**/*", "tests/**/*"],
+  "exclude": ["node_modules"]
+}
