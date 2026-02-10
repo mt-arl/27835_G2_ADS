@@ -1,4 +1,4 @@
-# Línea Base - Código
+# Línea Base - Código V4.0 (Final)
 
 # 🥜 KairosMix - Sistema de Gestión de Mezclas Personalizadas
 
