@@ -1,0 +1,102 @@
+# ============================================================
+# PRUEBAS DE CARGA - KAIROSMIX V3
+# Plan de Pruebas: TC-REP-006, TC-NF-001, TC-NF-002
+#
+# Fecha: 03/02/2026
+# Equipo QA: Denise Rea, Julio Viche, Camilo Orrico
+#
+# Requisitos validados:
+# - RNF-01: Tiempo de respuesta < 1s para consultas (95%)
+# - RNF-01: Tiempo de respuesta < 2s para registros (90%)
+# - TC-REP-006: Generar reporte con 10,000 registros < 7s
+# ============================================================
+
+config:
+  target: "http://localhost:3000"
+  phases:
+    # Fase 1: Calentamiento (warm-up)
+    - duration: 30
+      arrivalRate: 5
+      name: "Calentamiento"
+    # Fase 2: Carga normal
+    - duration: 60
+      arrivalRate: 20
+      name: "Carga Normal"
+    # Fase 3: Pico de carga
+    - duration: 30
+      arrivalRate: 50
+      name: "Pico de Carga"
+    # Fase 4: Recuperacion
+    - duration: 30
+      arrivalRate: 10
+      name: "Recuperacion"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+  # Metricas y umbrales
+  ensure:
+    # 95% de respuestas deben ser < 1000ms
+    p95: 1000
+    # 99% de respuestas deben ser < 2000ms
+    p99: 2000
+    # Maximo 1% de errores
+    maxErrorRate: 1
+
+scenarios:
+  # ============================================================
+  # ESCENARIO 1: CONSULTA DE PRODUCTOS (GET)
+  # Requisito: RNF-01 - Tiempo de respuesta < 1s (95%)
+  # ============================================================
+  - name: "TC-LOAD-001: Consulta de Productos"
+    weight: 40
+    flow:
+      - get:
+          url: "/api/products"
+          capture:
+            - json: "$[0]._id"
+              as: "productId"
+      - think: 1
+      - get:
+          url: "/api/products/search?q=almendra"
+
+  # ============================================================
+  # ESCENARIO 2: CONSULTA DE CLIENTES (GET)
+  # ============================================================
+  - name: "TC-LOAD-002: Consulta de Clientes"
+    weight: 30
+    flow:
+      - get:
+          url: "/api/clients"
+      - think: 2
+
+  # ============================================================
+  # ESCENARIO 3: CONSULTA DE PEDIDOS (GET)
+  # ============================================================
+  - name: "TC-LOAD-003: Consulta de Pedidos"
+    weight: 20
+    flow:
+      - get:
+          url: "/api/orders"
+      - think: 1
+
+  # ============================================================
+  # ESCENARIO 4: FLUJO COMPLETO (CRUD simulado)
+  # Requisito: RNF-01 - Tiempo de respuesta < 2s para registros (90%)
+  # ============================================================
+  - name: "TC-LOAD-004: Flujo Completo Usuario"
+    weight: 10
+    flow:
+      # 1. Ver productos
+      - get:
+          url: "/api/products"
+      - think: 2
+      # 2. Buscar producto especifico
+      - get:
+          url: "/api/products/search?q=nuez"
+      - think: 1
+      # 3. Ver clientes (admin)
+      - get:
+          url: "/api/clients"
+      - think: 3

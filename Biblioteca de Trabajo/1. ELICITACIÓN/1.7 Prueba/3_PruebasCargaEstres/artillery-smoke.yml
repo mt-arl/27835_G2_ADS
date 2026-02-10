@@ -1,0 +1,68 @@
+# ============================================================
+# PRUEBAS DE HUMO (SMOKE TESTS) - KAIROSMIX V3
+# Verificacion rapida de disponibilidad del sistema
+#
+# Fecha: 03/02/2026
+# Equipo QA: Denise Rea, Julio Viche, Camilo Orrico
+#
+# Objetivo: Verificar que endpoints estan activos
+# Ejecutar antes de pruebas mas extensivas
+# ============================================================
+
+config:
+  target: "http://localhost:3000"
+  phases:
+    # Una sola fase corta
+    - duration: 10
+      arrivalRate: 1
+      name: "Smoke Test"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+  ensure:
+    # Todas las respuestas deben ser rapidas
+    p95: 500
+    # Cero errores permitidos en smoke test
+    maxErrorRate: 0
+
+scenarios:
+  # ============================================================
+  # VERIFICACION DE ENDPOINTS PRINCIPALES
+  # ============================================================
+  - name: "TC-SMOKE-001: Verificacion de Endpoints"
+    flow:
+      # Endpoint de productos
+      - get:
+          url: "/api/products"
+          expect:
+            - statusCode: 200
+
+      # Endpoint de clientes
+      - get:
+          url: "/api/clients"
+          expect:
+            - statusCode: 200
+
+      # Endpoint de pedidos
+      - get:
+          url: "/api/orders"
+          expect:
+            - statusCode:
+                - 200
+                - 401  # Puede requerir auth
+
+      # Endpoint de mezclas
+      - get:
+          url: "/api/mixes"
+          expect:
+            - statusCode:
+                - 200
+                - 401  # Puede requerir auth
+
+      # Busqueda de productos
+      - get:
+          url: "/api/products/search?q=test"
+          expect:
+            - statusCode: 200

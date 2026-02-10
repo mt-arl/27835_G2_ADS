@@ -1,0 +1,87 @@
+# ============================================================
+# PRUEBAS DE ESTRES - KAIROSMIX V3
+# Plan de Pruebas: TC-INV-006 (Concurrencia)
+#
+# Fecha: 03/02/2026
+# Equipo QA: Denise Rea, Julio Viche, Camilo Orrico
+#
+# Objetivo: Identificar punto de quiebre del sistema
+# Simula condiciones extremas de uso
+# ============================================================
+
+config:
+  target: "http://localhost:3000"
+  phases:
+    # Fase 1: Inicio suave
+    - duration: 10
+      arrivalRate: 10
+      name: "Inicio"
+    # Fase 2: Incremento gradual
+    - duration: 30
+      arrivalRate: 50
+      rampTo: 100
+      name: "Rampa Ascendente"
+    # Fase 3: Carga maxima sostenida
+    - duration: 60
+      arrivalRate: 100
+      name: "Carga Maxima"
+    # Fase 4: Pico extremo
+    - duration: 30
+      arrivalRate: 200
+      name: "Pico Extremo"
+    # Fase 5: Recuperacion
+    - duration: 30
+      arrivalRate: 10
+      name: "Recuperacion"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+  # Umbrales mas estrictos para estres
+  ensure:
+    p95: 3000
+    p99: 5000
+    maxErrorRate: 5
+
+scenarios:
+  # ============================================================
+  # ESCENARIO 1: CONSULTAS INTENSIVAS
+  # ============================================================
+  - name: "TC-STRESS-001: Consultas Concurrentes"
+    weight: 50
+    flow:
+      - get:
+          url: "/api/products"
+      - get:
+          url: "/api/clients"
+      - get:
+          url: "/api/orders"
+
+  # ============================================================
+  # ESCENARIO 2: BUSQUEDAS SIMULTANEAS
+  # ============================================================
+  - name: "TC-STRESS-002: Busquedas Masivas"
+    weight: 30
+    flow:
+      - get:
+          url: "/api/products/search?q=a"
+      - get:
+          url: "/api/products/search?q=b"
+      - get:
+          url: "/api/products/search?q=c"
+
+  # ============================================================
+  # ESCENARIO 3: OPERACIONES MIXTAS
+  # ============================================================
+  - name: "TC-STRESS-003: Operaciones Mixtas"
+    weight: 20
+    flow:
+      - get:
+          url: "/api/products"
+      - think: 0.5
+      - get:
+          url: "/api/orders"
+      - think: 0.5
+      - get:
+          url: "/api/mixes"

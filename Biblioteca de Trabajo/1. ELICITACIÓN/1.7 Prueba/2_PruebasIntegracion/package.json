@@ -1,0 +1,21 @@
+{
+  "name": "kairosmix-pruebas-integracion",
+  "version": "1.0.0",
+  "description": "Pruebas de integracion API REST para KairosMix V3",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+  },
+  "keywords": ["tests", "kairosmix", "integracion", "supertest"],
+  "author": "Equipo QA KairosMix",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/supertest": "^2.0.16",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "mongodb-memory-server": "^9.1.6"
+  }
+}

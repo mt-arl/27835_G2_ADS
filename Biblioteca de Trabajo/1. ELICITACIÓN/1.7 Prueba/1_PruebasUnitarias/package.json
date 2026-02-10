@@ -1,0 +1,20 @@
+{
+  "name": "kairosmix-pruebas-unitarias",
+  "version": "1.0.0",
+  "description": "Pruebas unitarias para KairosMix V3 - Proyecto ESPE",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:verbose": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose"
+  },
+  "keywords": ["tests", "kairosmix", "jest", "unitarias"],
+  "author": "Equipo QA KairosMix",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0"
+  }
+}

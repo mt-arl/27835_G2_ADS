@@ -1,0 +1,17 @@
+{
+  "name": "kairosmix-pruebas-carga",
+  "version": "1.0.0",
+  "description": "Pruebas de carga y estres para KairosMix V3 con Artillery",
+  "scripts": {
+    "test:load": "artillery run artillery-load.yml",
+    "test:stress": "artillery run artillery-stress.yml",
+    "test:smoke": "artillery run artillery-smoke.yml",
+    "report": "artillery report"
+  },
+  "keywords": ["load-testing", "stress-testing", "artillery", "kairosmix"],
+  "author": "Equipo QA KairosMix",
+  "license": "ISC",
+  "devDependencies": {
+    "artillery": "^2.0.0"
+  }
+}
